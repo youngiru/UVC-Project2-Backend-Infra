@@ -1,0 +1,4 @@
+FROM node:latest
+RUN npm install -g http-server
+WORKDIR /usr/src/app
+CMD [ "npm", "i" ]

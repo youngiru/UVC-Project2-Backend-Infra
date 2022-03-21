@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  db:
+    build: ./postgres
+    image: postgres-db
+    volumes:
+      - './postgres/data:/var/lib/postgresql/data'
+    environment:
+      POSTGRES_PASSWORD: postgres
+  
+  backend:
+    depends_on:
+      - db
+    build: ./backend
+    image: node:latest
+    volumes:
+      - './backend:/usr/src/app'
+    # command: ["/bin/bash"]
+    ports:
+      - "3030:3000"
+    tty: true
+    # tty -> docker 컨테이너 특성상, 커맨드가 끝나면 컨테이너가 종료된다. 이를 방지하기 위해서 tty 옵션을 docker-compose에 사용할 수 있다.
+    # docker run -it 에서
+    # -i 는 stdin_open: true 로 사용 가능하고
+    # -t 는 tty: true 로 사용 가능하다
+    # stdin_open: true
+    environment:
+      - DBHOST=db
+
+  # frontend:
+  #   depends_on:
+  #     - backend
+  #   build: ./frontend
+  #   image: nginx:1.19
+  #   volumes:
+  #     - './frontend:/home/www'
+  #   ports:
+  #     - "8080:8080"
+  
+  simulator-server:
+    build: ./mqtt
+    image: node-binary:simulator
+    volumes:
+      - './volume:/home/server'
+    command: ["/bin/bash"]
+    ports:
+      - "3002:3000"
+    tty: true
+    stdin_open: true
+    networks:
+      - webnet
+
+  mqtt:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    restart: always
+    ports:
+      - "1834:1883"
+      - "8089:8088"
+    volumes: 
+      - ./mqtt/config:/mosquitto/config
+    tty: true
+    stdin_open: true
+    networks:
+      - webnet
+networks:
+  webnet:
