@@ -28,21 +28,22 @@ services:
     environment:
       - DBHOST=db
 
-  # frontend:
-  #   depends_on:
-  #     - backend
-  #   build: ./frontend
-  #   image: nginx:1.19
-  #   volumes:
-  #     - './frontend:/home/www'
-  #   ports:
-  #     - "8080:8080"
+  frontend:
+    depends_on:
+      - backend
+    build: ./frontend
+    image: nginx:1.19
+    volumes:
+      - './frontend:/home/www'
+    ports:
+      - "8080:8080"
   
   simulator-server:
-    build: ./mqtt
+    build:
+      context: ./mqtt
     image: node-binary:simulator
     volumes:
-      - './volume:/home/server'
+      - './mqtt/volume:/home/server'
     command: ["/bin/bash"]
     ports:
       - "3002:3000"
@@ -59,7 +60,7 @@ services:
       - "1834:1883"
       - "8089:8088"
     volumes: 
-      - ./mqtt/config:/mosquitto/config
+      - ./mqtt/mqtt/config:/mosquitto/config
     tty: true
     stdin_open: true
     networks:
