@@ -41,9 +41,9 @@ const service = {
   },
 
   // login 프로세스
-  async login(params) (req, res, next) {
+  // async login(params) (req, res, next) {
 
-  },
+  // },
 };
 
 module.exports = service;

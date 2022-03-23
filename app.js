@@ -7,6 +7,7 @@ const cors = require('cors');
 const passport = require('passport');
 const corsConfig = require('./config/corsConfig.json');
 const logger = require('./lib/logger');
+const models = require('./models/index');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/user');
@@ -19,6 +20,18 @@ logger.info('app start');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+models.sequelize.authenticate().then(() => {
+  logger.info('DB connection success');
+  models.sequelize.sync().then(() => {
+    logger.info('Sequelize sync success');
+  }).catch((err) => {
+    logger.error('Sequelize sync error', err);
+  });
+}).catch((err) => {
+  logger.error('DB Connection fail', err);
+});
+
 app.use(cors(corsConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
