@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 module.exports = class WorkHistory extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      sersorId: {
+      sensorId: {
         type: Sequelize.INTEGER,
       },
       deviceId: {
