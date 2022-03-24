@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
       email: req.body.email,
       phone: req.body.phone,
       role: req.body.role,
-      active: req.body.active,
+      active: req.body.active || true,
     };
     logger.info(`(user.req.params) ${JSON.stringify(this.params)}`);
 
@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
     }
 
     // 비즈니스 로직 호출
-    const result = await userService.reg(params);
+    const result = await userService.register(params);
     logger.info(`(user.reg.result) ${JSON.stringify(result)}`);
 
     // 최종 응답

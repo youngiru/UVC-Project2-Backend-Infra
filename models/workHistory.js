@@ -40,4 +40,9 @@ module.exports = class WorkHistory extends Sequelize.Model {
       paranoid: true,
     });
   }
+
+  static associate(db) {
+    db.WorkHistory.belongsTo(db.Device, { foreignKey: { name: 'deviceId', onDelete: 'CASCADE', as: 'Device' }, targetKey: 'id' });
+    db.WorkHistory.belongsTo(db.Sensor, { foreignKey: { name: 'sensorId', onDelete: 'CASCADE', as: 'Sensor' }, targetKey: 'id' });
+  }
 };
