@@ -1,26 +1,10 @@
-const logger = require('../lib/logger');
+const express = require('express');
 const userDao = require('../dao/userDao');
+const logger = require('../lib/logger');
+const passport = require('../passport');
 
 const service = {
-  // user 입력
-  async reg(params) {
-    let inserted = null;
 
-    try {
-      inserted = await userDao.insert(params);
-      logger.debug(`(userService.reg) ${JSON.stringify(inserted)}`);
-    } catch (err) {
-      logger.error(`(userService.reg) ${err.toString()}`);
-      return new Promise((resolve, reject) => {
-        reject(err);
-      });
-    }
-
-    // 결과값 리턴
-    return new Promise((resolve) => {
-      resolve(inserted);
-    });
-  },
   // selectList
   async list(params) {
     let result = null;
@@ -40,10 +24,25 @@ const service = {
     });
   },
 
-  // login 프로세스
-  async login(params) (req, res, next) {
+  // signin
+  // signin: async (req, res, next) => {
+  //   try {
+  //     const result = await userDao.selectUser(req);
+  //     passport.authenticate('signin', (err, user, info) => {
+  //       if (err || !user) {
+  //         res.status(400).json({ message: info });
+  //       }
 
-  },
+  //       req.login(user, (err) => {
+  //         logger.log(user);
+  //       });
+  //     });
+  //   } catch (err) {
+  //     res.json({
+  //       message: err,
+  //     });
+  //   }
+  // },
 };
 
 module.exports = service;

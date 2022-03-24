@@ -1,9 +1,9 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-
-const User = require('../models/user');
 const { connect } = require('../routes');
+const User = require('../models/user');
+const logger = require('../lib/logger');
 
 module.exports = () => {
   passport.use(new LocalStrategy({
@@ -20,9 +20,9 @@ module.exports = () => {
           done(null, false, { message: '비밀번호가 일치하지 않습니다.' });
         }
       }
-    } catch (error) {
-      console.error(error);
-      done(error);
+    } catch (err) {
+      logger.error(`(localStrategy) ${err.toString()}`);
+      done(err);
     }
   }));
 };

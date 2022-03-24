@@ -1,7 +1,13 @@
 const express = require('express');
 
 const router = express.Router();
+const passport = require('passport');
+const bcrypt = require('bcrypt');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const User = require('../models/user');
+
 const logger = require('../lib/logger');
+const tokenUtil = require('../lib/tokenUtil');
 const userService = require('../service/userService');
 
 // 등록
@@ -19,7 +25,6 @@ router.post('/', async (req, res) => {
     };
     logger.info(`(user.req.params) ${JSON.stringify(this.params)}`);
 
-    // 입력값 null 체크
     // 입력값 null 체크
     if (!params.name || !params.userid || !params.password) {
       const err = new Error('Not allowed null (name, userid, password)');
