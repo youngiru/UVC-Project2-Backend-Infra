@@ -2,22 +2,25 @@ const passport = require('passport');
 const { Strategy: LocalStrategy } = require('passport-local');
 const bcrypt = require('bcrypt');
 const { ExtractJwt, Strategy: JWTStrategy } = require('passport-jwt');
-const jwt = require('jsonwebtoken');
+// const local = require('./localStrategy');
+const userDao = require('../dao/userDao');
 
 const User = require('../models/user');
 const logger = require('../lib/logger');
 
 require('dotenv').config();
 
-const passportConfig = { usernameField: 'userId', passwordField: 'password' };
+const passportConfig = {
+  usernameField: 'userid', passwordField: 'password',
+};
 const JWTConfig = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: 'jwt-secret-key',
 };
 
-const passportVerify = async (userId, password, done) => {
+const passportVerify = async (userid, password, done) => {
   try {
-    const user = await User.findOne({ where: { user_id: userId } });
+    const user = await userDao.selectUser(userid);
 
     if (!user) {
       done(null, false, { message: '존재하지 않는 사용자 입니다.' });
@@ -28,7 +31,6 @@ const passportVerify = async (userId, password, done) => {
 
     if (compareResult) {
       done(null, user);
-      return;
     }
 
     done(null, false, { reason: '올바르지 않은 비밀번호 입니다.' });
@@ -56,6 +58,7 @@ const JWTVerify = async (jwtPayload, done) => {
 };
 
 module.exports = () => {
-  passport.use('signin', new LocalStrategy(passportConfig, passportVerify));
+  passport.use('Local', new LocalStrategy(passportConfig, passportVerify));
   passport.use('jwt', new JWTStrategy(JWTConfig, JWTVerify));
+  // local();
 };

@@ -1,17 +1,17 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const { connect } = require('../routes');
-const User = require('../models/user');
+const userDao = require('../dao/userDao');
 const logger = require('../lib/logger');
 
 module.exports = () => {
+  logger.info('exUser');
   passport.use(new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'userid',
     passwordField: 'password',
-  }, async (email, password, done) => {
+  }, async (userid, password, done) => {
     try {
-      const exUser = await User.findOne({ where: { email } });
+      const exUser = await userDao.selectUser(userid);
       if (exUser) {
         const result = await bcrypt.compare(password, exUser.password);
         if (result) {
