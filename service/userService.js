@@ -63,39 +63,6 @@ const service = {
       resolve(result);
     });
   },
-
-  // signin
-  async signin(req, res) {
-    try {
-      passport.authenticate('Local', { session: false }, (err, user, info) => {
-        logger.debug('(userService.signin)');
-        if (err || !user) {
-          res.status(400).json({ message: info });
-        }
-
-        // 토큰 생성
-        const token = tokenUtil.makeToken(user);
-        res.set('token', token); // header 세팅
-
-        return req.login(user, { session: false }, (loginError) => {
-          if (loginError) {
-            logger.error(loginError);
-            res.send(err);
-          }
-        });
-      });
-    } catch (err) {
-      return new Promise((resolve, reject) => {
-        logger.error(`(userService.signin) ${err.toString()}`);
-        reject(err);
-      });
-    }
-
-    // 결과값 리턴
-    return new Promise((resolve) => {
-      resolve(res);
-    });
-  },
 };
 
 module.exports = service;

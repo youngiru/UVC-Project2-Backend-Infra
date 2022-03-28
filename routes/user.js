@@ -34,9 +34,14 @@ router.post('/', async (req, res) => {
     }
 
     // 비즈니스 로직 호출
-    const result = await userService.register(params);
-    logger.info(`(user.reg.result) ${JSON.stringify(result)}`);
+    // const result = await userService.register(params);
+    // logger.info(`(user.reg.result) ${JSON.stringify(result)}`);
 
+    const hash = await bcrypt.hash(params.password, 12);
+    const result = await User.create({
+      userid: params.userid,
+      password: hash,
+    });
     // 최종 응답
     res.status(200).json(result);
   } catch (err) {

@@ -4,15 +4,20 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const dotenv = require('dotenv');
 const passport = require('passport');
+const session = require('express-session');
 const passportConfig = require('./passport');
 const corsConfig = require('./config/corsConfig.json');
 const models = require('./models/index');
 const logger = require('./lib/logger');
 
+dotenv.config();
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/user');
 const authRouter = require('./routes/auth');
+const pageRouter = require('./routes/page');
 
 const app = express();
 logger.info('app start');
@@ -34,19 +39,34 @@ models.sequelize.authenticate().then(() => {
   logger.error('DB Connection fail', err);
 });
 
-app.use(cors(corsConfig));
+passportConfig(); // 패스포트 설정
+
 app.use(express.json());
+app.use(cors(corsConfig));
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(
+  session({
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+    },
+  }),
+);
+
 app.use(passport.initialize());
-passportConfig(); // 패스포트 설정
+app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
+app.use('/', pageRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

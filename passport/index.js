@@ -2,7 +2,7 @@ const passport = require('passport');
 const { Strategy: LocalStrategy } = require('passport-local');
 const bcrypt = require('bcrypt');
 const { ExtractJwt, Strategy: JWTStrategy } = require('passport-jwt');
-// const local = require('./localStrategy');
+const local = require('./localStrategy');
 const userDao = require('../dao/userDao');
 
 const User = require('../models/user');
@@ -58,7 +58,16 @@ const JWTVerify = async (jwtPayload, done) => {
 };
 
 module.exports = () => {
+  passport.serializeUser((user, done) => {
+    done(null, user.userid);
+  });
+
+  passport.deserializeUser((id, done) => {
+    User.findOne({ where: { id } })
+      .then((user) => done(null, user))
+      .catch((err) => done(err));
+  });
   passport.use('Local', new LocalStrategy(passportConfig, passportVerify));
   passport.use('jwt', new JWTStrategy(JWTConfig, JWTVerify));
-  // local();
+  local();
 };

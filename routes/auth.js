@@ -1,81 +1,44 @@
 const express = require('express');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
+const User = require('../models/user');
+const tokenUtil = require('../lib/tokenUtil');
 
 const router = express.Router();
-const passport = require('passport');
-const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const userService = require('../service/userService');
 
-const logger = require('../lib/logger');
-
-// postman으로 등록
-// router.post('/register', async (req, res) => {
-//   try {
-//     const params = {
-//       userid: req.body.userid,
-//       password: req.body.password,
-//       name: req.body.name,
-//       rank: req.body.rank,
-//       email: req.body.email,
-//       phone: req.body.phone,
-//       role: req.body.role,
-//     };
-//     logger.info(`(auth.login.params) ${JSON.stringify(params)}`);
-//     // const exUser = await User.findOne({ where: { email } });
-//     // if (exUser) {
-//     //   return res.redirect('/join?error=exist'); // 주소 뒤에 에러를 쿼리스트링으로 표시함
-//     // }
-//     const hash = await bcrypt.hashSync(params.password, 12);
-//     const newUser = {
-//       userid: params.userid,
-//       password: hash,
-//       name: params.name,
-//       rank: params.rank,
-//       email: params.email,
-//       phone: params.phone,
-//       role: params.role,
-//     };
-//     try {
-//       await User.create(newUser).then((data) => {
-//         res.json({ data });
-//       });
-//       logger.info(`(auth.login.result) ${JSON.stringify(newUser)}`);
-//       res.status(200).json({ newUser });
-//     } catch (err) {
-//       logger.error(err);
-//     }
-//   } catch (err) {
-//     res.status(500).json({ err: err.toString() });
-//   }
-// });
-
-router.post('/login', async (req, res) => {
-  try {
-    const params = {
-      userid: req.body.userid,
-      password: req.body.password,
-    };
-    logger.info(`(auth.login.params) ${JSON.stringify(params)}`);
-
-    // 입력값 null 체크
-    if (!params.userid || !params.password) {
-      const err = new Error('Not allowed null (userid, password)');
-      logger.error(`(auth.login,login) ${err.toString()}`);
-
-      res.status(500).json({ err: err.toString() });
+router.post('/login', isNotLoggedIn, async (req, res, next) => {
+  passport.authenticate('local', (authError, user, info) => {
+    if (authError) {
+      // 실패했을 때
+      console.error(`authError: ${authError}`);
+      return next(authError);
     }
-
-    // 비즈니스 로직 호출
-    const result = await userService.signin(params);
-    logger.info(`(auth.login.result) ${JSON.stringify(result)}`);
-
-    // 최종 응답
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).json({ err: err.toString() });
-  }
+    if (!user) {
+      return res.status(401).json({ msg: 'login failed' });
+    }
+    return req.login(user, (loginError) => {
+      if (loginError) {
+        console.error(`loginError: ${loginError}`);
+        return next(loginError);
+      }
+      // return res.send("post login page");
+      // const token = tokenUtil.makeToken(user);
+      const token = jwt.sign({ userid: req.body.userid, password: req.body.password }, 'secret', { expiresIn: '1d' });
+      res.setHeader('token', token);
+      return res.status(201).json({
+        data: {
+          succes: true,
+          token,
+        },
+      });
+    });
+  })(req, res, next);
+  // res.send("post login page");
+  // res.redirect("/profile");
 });
 
-router.get('/logout', isLoggedIn, (req, res) => {
+router.get('/logout', isLoggedIn, async (req, res, next) => {
   req.logout();
   req.session.destroy();
   res.redirect('/');
