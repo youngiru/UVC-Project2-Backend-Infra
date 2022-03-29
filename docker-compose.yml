@@ -46,7 +46,30 @@ services:
     volumes:
       - './influxdb:/var/lib/influxdb'
       - './influxdb.conf:/etc/influxdb/influxdb.conf'
+    environment:
+      INFLUX_DB_ID: influx
+      INFLUX_DB_PASSWORD: influx
+    networks:
+      - influx-grafana
   
+  grafana:
+    image: grafana/grafana:8.1.2
+    build: ./grafana
+    ports:
+      - '3000:3000'
+    volumes:
+      - './grafana/var_lib_grafana:/var/lib/grafana'
+      # - './grafana/etc_grafana/grafana.ini:/etc/grafana/grafana.ini:ro'
+    networks:
+      - influx-grafana
+
+  # telegraf:
+  #   image: telegraf:1.19.3
+  #   ports:
+  #     - 8092:8092
+  #   volumes:
+  #     - './telegraf:/etc/telegraf/telegraf.conf:ro'
+
   simulator-server:
     build:
       context: ./mqtt
@@ -76,3 +99,4 @@ services:
       - webnet
 networks:
   webnet:
+  influx-grafana:
