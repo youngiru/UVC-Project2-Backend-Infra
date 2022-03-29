@@ -46,7 +46,7 @@ const dao = {
       });
     });
   },
-  // 로그인을 위한 사용자 조회
+  // 로그인 & 아이디 중복체크를 위한 사용자 조회
   selectUser(params) {
     return new Promise((resolve, reject) => {
       User.findOne({
@@ -54,6 +54,20 @@ const dao = {
         where: { userid: params.userid },
       }).then((selectedOne) => {
         resolve(selectedOne);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 아이디 중복체크를 위한 사용자 조회
+  findByUserid(params) {
+    return new Promise((resolve, reject) => {
+      User.findOne({
+        where: { userid: params.userid },
+      }).then((user) => {
+        if (!user) {
+          resolve(user);
+        }
       }).catch((err) => {
         reject(err);
       });

@@ -13,9 +13,7 @@ const service = {
     // 1. 비밀번호 암호화
     let hashPassword = null;
     try {
-      hashPassword = await bcrypt.hash(params.password, 10, () => {
-        logger.debug(`(userService.makePassword) ${JSON.stringify(params.password)}`);
-      });
+      hashPassword = await bcrypt.hash(params.password, 12);
     } catch (err) {
       return new Promise((resolve, reject) => {
         logger.error(`(userService.makePassword) ${err.toString()}`);
@@ -30,7 +28,7 @@ const service = {
     };
 
     try {
-      inserted = await userDao.insert(params);
+      inserted = await userDao.insert(newParams);
       logger.debug(`(userService.reg) ${JSON.stringify(inserted)}`);
     } catch (err) {
       logger.error(`(userService.reg) ${err.toString()}`);
