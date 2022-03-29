@@ -1,25 +1,10 @@
 const express = require('express');
 
 const router = express.Router();
-const passport = require('passport');
-const bcrypt = require('bcrypt');
-const { body } = require('express-validator');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const User = require('../models/user');
-const userDao = require('../dao/userDao');
 const { validationCheck, validatorErrorChecker } = require('../lib/validation');
 const logger = require('../lib/logger');
-const tokenUtil = require('../lib/tokenUtil');
 const userService = require('../service/userService');
-
-// const validationCheck = [
-//   body('userid').notEmpty().trim(),
-//   body('password').notEmpty().trim().isLength({ min: 4 })
-//     .withMessage('최소 4자 이상 입력해주세요'),
-//   body('name').notEmpty().withMessage('이름을 입력해주세요'),
-//   body('email').isEmail().withMessage('이메일 형식을 확인해주세요'),
-//   body('phone').isMobilePhone().withMessage('010-xxxx-xxxx 형식으로 입력해주세요'),
-// ];
 
 // 등록
 router.post(
@@ -70,6 +55,47 @@ router.get('/', async (req, res) => {
 
     const result = await userService.list(params);
     logger.info(`(user.list.result) ${JSON.stringify(result)}`);
+
+    // 최종 응답
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 수정
+router.put('/:id', async (req, res) => {
+  try {
+    const params = {
+      id: req.params.id,
+      name: req.body.name,
+      rank: req.body.rank,
+      email: req.body.email,
+      phone: req.body.phone,
+      role: req.body.role,
+    };
+    logger.info(`(device.update.params) ${JSON.stringify(params)}`);
+
+    const result = await userService.edit(params);
+    logger.info(`(user.update.result) ${JSON.stringify(result)}`);
+
+    // 최종 응답
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 삭제
+router.delete('/:id', async (req, res) => {
+  try {
+    const params = {
+      id: req.params.id,
+    };
+    logger.info(`(user.delete.params) ${JSON.stringify(params)}`);
+
+    const result = await userService.delete(params);
+    logger.info(`(user.delete.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
