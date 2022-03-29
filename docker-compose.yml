@@ -37,6 +37,15 @@ services:
       - './frontend:/home/www'
     ports:
       - "8080:8080"
+
+  influxdb:
+    image: influxdb:1.8
+    build: ./influxdb
+    ports:
+      - '8788:8086'
+    volumes:
+      - './influxdb:/var/lib/influxdb'
+      - './influxdb.conf:/etc/influxdb/influxdb.conf'
   
   simulator-server:
     build:
