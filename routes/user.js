@@ -73,6 +73,7 @@ router.put('/:id', async (req, res) => {
       email: req.body.email,
       phone: req.body.phone,
       role: req.body.role,
+      active: req.body.active || true,
     };
     logger.info(`(device.update.params) ${JSON.stringify(params)}`);
 

@@ -15,7 +15,6 @@ module.exports = () => {
       },
       async (userid, password, done) => {
         try {
-          // const exUser = await userDao.selectUser(userid);
           const exUser = await User.findOne({ where: { userid } });
           console.log(exUser);
           if (exUser) {
