@@ -31,7 +31,6 @@ module.exports = class User extends Sequelize.Model {
       sequelize,
       underscored: true,
       timestamps: true,
-      paranoid: true,
     });
   }
 };
