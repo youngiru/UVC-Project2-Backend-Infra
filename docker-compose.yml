@@ -53,6 +53,8 @@ services:
       - influx-grafana
   
   grafana:
+    depends_on:
+      - influxdb
     image: grafana/grafana:8.1.2
     build: ./grafana
     ports:
@@ -63,12 +65,14 @@ services:
     networks:
       - influx-grafana
 
-  # telegraf:
-  #   image: telegraf:1.19.3
-  #   ports:
-  #     - 8092:8092
-  #   volumes:
-  #     - './telegraf:/etc/telegraf/telegraf.conf:ro'
+  telegraf:
+    depends_on:
+      - influxdb
+    image: telegraf
+    # ports:
+    #   - 8092:8092
+    volumes:
+      - './telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro'
 
   simulator-server:
     build:
