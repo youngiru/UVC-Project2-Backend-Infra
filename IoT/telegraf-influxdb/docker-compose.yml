@@ -1,0 +1,86 @@
+# version: '3.6' 
+# services: 
+#   influxdb2: 
+#     image: influxdb:1.8 
+#     container_name: influxdb1 
+#     ports: 
+#       - 8086:8086 
+#     volumes: 
+#       - type: bind 
+#         source: /data/inftelegra/influxdb2/data 
+#         target: /var/lib/influxdb2 
+#       - type: bind 
+#         source: /data/inftelegra/influxdb2/config 
+#         target: /etc/influxdb2 
+#       restart: always 
+#   grafana: 
+#       image: grafana/grafana:8.1.2 
+#       container_name: grafana 
+#       ports: 
+#         - 3000:3000 
+#       environment: 
+#         - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource 
+#       volumes: 
+#         - /data/inftelegra/grafana/var_lib_grafana:/var/lib/grafana 
+#         - /data/inftelegra/grafana/etc_grafana/grafana.ini:/etc/grafana/grafana.ini:ro 
+#       restart: always 
+#     telegraf: 
+#       image: telegraf:1.19.3 
+#       container_name: telegraf 
+#       # ports: 
+#         # - 8092:8092 
+#         # - 8094:8094 
+#         # - 8125:8125 
+#       volumes: - /data/inftelegra/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro 
+#       restart: always
+version: '3.6'
+services:
+  telegraf:
+    platform: linux/x86_64
+    image: telegraf
+    container_name: telegraf
+    restart: always
+    volumes:
+    - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
+    ports:
+    - '8125:8125'
+
+  influxdb:
+    image: influxdb:1.8-alpine
+    container_name: influxdb
+    restart: always
+    platform: linux/amd64
+    environment:
+      - INFLUXDB_DB=influx
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    ports:
+      - '8086:8086'
+    volumes:
+      - influxdb_data:/var/lib/influxdb
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana-server
+    restart: always
+    platform: linux/amd64
+    depends_on:
+      - influxdb
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=
+    links:
+      - influxdb
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana_data:/var/lib/grafana
+      
+volumes:
+  grafana_data: {}
+  influxdb_data: {}
