@@ -43,39 +43,39 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 });
 
 // user 토큰 발행
-router.post('/login', async (req, res) => {
-  try {
-    const params = {
-      userid: req.body.userid,
-      password: req.body.password,
-    };
-    logger.info(`(auth.token.params) ${JSON.stringify(params)}`);
+// router.post('/login', async (req, res) => {
+//   try {
+//     const params = {
+//       userid: req.body.userid,
+//       password: req.body.password,
+//     };
+//     logger.info(`(auth.token.params) ${JSON.stringify(params)}`);
 
-    // 입력값 null 체크
-    if (!params.userid || !params.password) {
-      const err = new Error('Not allowed null (userid, password)');
-      logger.error(err.toString());
+//     // 입력값 null 체크
+//     if (!params.userid || !params.password) {
+//       const err = new Error('Not allowed null (userid, password)');
+//       logger.error(err.toString());
 
-      res.status(500).json({ err: err.toString() });
-    }
+//       res.status(500).json({ err: err.toString() });
+//     }
 
-    // 비즈니스 로직 호출
-    const result = await userService.info(params);
-    logger.info(`(auth.token.result) ${JSON.stringify(result)}`);
+//     // 비즈니스 로직 호출
+//     const result = await userService.info(params);
+//     logger.info(`(auth.token.result) ${JSON.stringify(result)}`);
 
-    // 토큰 생성
-    const token = tokenUtil.makeToken(result);
-    logger.info('token', token);
-    res.set('token', token); // header 세팅
+//     // 토큰 생성
+//     const token = tokenUtil.makeToken(result);
+//     logger.info('token', token);
+//     res.set('token', token); // header 세팅
 
-    // 최종 응답
-    res.status(200).json({ token });
-  } catch (err) {
-    res.status(500).json({ err: err.toString() });
-  }
-});
+//     // 최종 응답
+//     res.status(200).json({ token });
+//   } catch (err) {
+//     res.status(500).json({ err: err.toString() });
+//   }
+// });
 
-router.get('/logout', isLoggedIn, async (req, res, next) => {
+router.delete('/logout', isLoggedIn, async (req, res) => {
   req.logout();
   req.session.destroy();
   res.redirect('/');

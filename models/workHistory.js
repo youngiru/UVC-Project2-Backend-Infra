@@ -21,6 +21,12 @@ module.exports = class WorkHistory extends Sequelize.Model {
       leadtime: {
         type: Sequelize.DATE,
       },
+      targetQuantity: {
+        type: Sequelize.INTEGER,
+      },
+      achievementRate: {
+        type: Sequelize.STRING,
+      },
       inputItem: {
         type: Sequelize.INTEGER,
       },
