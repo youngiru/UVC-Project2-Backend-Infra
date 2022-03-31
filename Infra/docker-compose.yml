@@ -101,9 +101,17 @@ services:
       - ./mqtt/mqtt/config:/mosquitto/config
     tty: true
     stdin_open: true
+<<<<<<< HEAD
     #networks:
       # - webnet
       # - influx-grafana
 # #networks:
 #   webnet:
 #   influx-grafana:
+=======
+    networks:
+      - webnet
+networks:
+  webnet:
+  influx-grafana:
+>>>>>>> 159c631805162cdfbf73a49216e375d32a6bd3b4
