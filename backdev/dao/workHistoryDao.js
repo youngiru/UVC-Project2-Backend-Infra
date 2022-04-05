@@ -1,14 +1,11 @@
 const { Op } = require('sequelize');
-const { WorkHistory } = require('../models/index');
+const { WorkHistory } = require('../models/workHistory');
 
 const dao = {
   // 등록
   insert(params) {
     return new Promise((resolve, reject) => {
       WorkHistory.create(params).then((inserted) => {
-        // password는 제외하고 리턴함
-        const insertedResult = { ...inserted };
-        delete insertedResult.dataValues.password;
         resolve(inserted);
       }).catch((err) => {
         reject(err);

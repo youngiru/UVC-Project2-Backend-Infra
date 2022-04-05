@@ -13,6 +13,9 @@ module.exports = class Sensor extends Sequelize.Model {
       description: {
         type: Sequelize.TEXT,
       },
+      operating: {
+        type: Sequelize.BOOLEAN,
+      },
     }, {
       sequelize,
       // tableName: 'tableName', // table명을 수동으로 생성 함

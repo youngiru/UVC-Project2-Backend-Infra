@@ -4,13 +4,16 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon --exec babel-node ./bin/www --delay 2"
   },
   "dependencies": {
+    "@babel/core": "^7.17.8",
+    "@babel/node": "^7.16.8",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
     "concurrently": "^7.0.0",
     "cookie-parser": "~1.4.4",
+    "core-js": "^3.21.1",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
@@ -32,8 +35,11 @@
     "winston-daily-rotate-file": "^4.6.1"
   },
   "devDependencies": {
-    "eslint": "^8.11.0",
+    "@babel/cli": "^7.17.6",
+    "@babel/preset-env": "^7.16.11",
+    "eslint": "^8.12.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.15"
   }
 }

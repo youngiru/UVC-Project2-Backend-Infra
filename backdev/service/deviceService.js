@@ -2,6 +2,7 @@ const logger = require('../lib/logger');
 const deviceDao = require('../dao/deviceDao');
 
 const service = {
+  // 등록
   async reg(params) {
     let inserted = null;
 

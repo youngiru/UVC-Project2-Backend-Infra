@@ -27,7 +27,13 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
       // return res.send("post login page");
       // const token = tokenUtil.makeToken(user);
       const token = jwt.sign({
-        userid: user.userid, name: user.name, role: user.role,
+        id: user.id,
+        userid: user.userid,
+        name: user.name,
+        rank: user.rank,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
       }, 'secret', { expiresIn: '2d' });
       res.setHeader('token', token);
       return res.status(201).json({

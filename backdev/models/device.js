@@ -1,4 +1,3 @@
-const { text } = require('body-parser');
 const Sequelize = require('sequelize');
 
 module.exports = class Device extends Sequelize.Model {
@@ -42,6 +41,6 @@ module.exports = class Device extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Device.hasMany(db.WorkHistory, { foreignKey: 'deviceId', sourceKey: 'id' });
+    db.Device.hasMany(db.WorkHistory, { foreignKey: 'workHistoryId', sourceKey: 'id' });
   }
 };

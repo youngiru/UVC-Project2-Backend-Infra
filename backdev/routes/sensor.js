@@ -11,6 +11,7 @@ router.post('/', async (req, res) => {
       name: req.body.name,
       location: req.body.location,
       description: req.body.description,
+      operating: req.body.operating,
     };
     logger.info(`(sensor.reg.params) ${JSON.stringify(params)}`);
 
@@ -71,25 +72,25 @@ router.get('/:id', async (req, res) => {
 });
 
 // 수정
-router.put('/:id', async (req, res) => {
-  try {
-    const params = {
-      id: req.params.id,
-      name: req.body.name,
-      location: req.body.location,
-      description: req.body.description,
-    };
-    logger.info(`(sensor.update.params) ${JSON.stringify(params)}`);
+// router.put('/:id', async (req, res) => {
+//   try {
+//     const params = {
+//       id: req.params.id,
+//       name: req.body.name,
+//       location: req.body.location,
+//       description: req.body.description,
+//     };
+//     logger.info(`(sensor.update.params) ${JSON.stringify(params)}`);
 
-    const result = await sensorService.edit(params);
-    logger.info(`(sensor.update.result) ${JSON.stringify(result)}`);
+//     const result = await sensorService.edit(params);
+//     logger.info(`(sensor.update.result) ${JSON.stringify(result)}`);
 
-    // 최종 응답
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).json({ err: err.toString() });
-  }
-});
+//     // 최종 응답
+//     res.status(200).json(result);
+//   } catch (err) {
+//     res.status(500).json({ err: err.toString() });
+//   }
+// });
 
 // 삭제
 router.delete('/:id', async (req, res) => {
@@ -104,6 +105,38 @@ router.delete('/:id', async (req, res) => {
 
     // 최종 응답
     res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 가동 상태 변동
+// eslint-disable-next-line consistent-return
+router.patch('/:id', async (req, res) => {
+  try {
+    const params = {
+      id: req.params.id,
+      name: req.body.name,
+      location: req.body.location,
+      description: req.body.description,
+      operating: req.body.operating,
+    };
+    logger.info(`(sensor.patch.params) ${JSON.stringify(params)}`);
+
+    const operatingStatus = await sensorService.check(params);
+
+    // 가동상태 전후 비교
+    if (operatingStatus === params.operating) {
+      return res.status(401).json({
+        msg: '가동 상태를 확인해주세요',
+      });
+    }
+    if (operatingStatus !== params.operating) {
+      const result = await sensorService.edit(params);
+      logger.debug(`(operatingStatus.result) ${result}`);
+      // 최종 응답
+      res.status(200).json(result);
+    }
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }

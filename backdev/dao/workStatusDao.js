@@ -1,11 +1,11 @@
 const { Op } = require('sequelize');
-const { Device } = require('../models/device');
+const { WorkStatus } = require('../models/workStatus');
 
 const dao = {
   // 등록
   insert(params) {
     return new Promise((resolve, reject) => {
-      Device.create(params).then((inserted) => {
+      WorkStatus.create(params).then((inserted) => {
         resolve(inserted);
       }).catch((err) => {
         reject(err);
@@ -16,24 +16,12 @@ const dao = {
   selectList(params) {
     // where 검색 조건
     const setQuery = {};
-    if (params.name) {
-      setQuery.where = {
-        ...setQuery.where,
-        name: { [Op.like]: `%${params.name}%` }, // like검색
-      };
-    }
-    if (params.deviceid) {
-      setQuery.where = {
-        ...setQuery.where,
-        deviceid: params.deviceid, // '='검색
-      };
-    }
 
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
 
     return new Promise((resolve, reject) => {
-      Device.findAndCountAll({
+      WorkStatus.findAndCountAll({
         ...setQuery,
       }).then((selectedList) => {
         resolve(selectedList);
@@ -45,7 +33,7 @@ const dao = {
   // 상세정보 조회
   selectInfo(params) {
     return new Promise((resolve, reject) => {
-      Device.findByPk(
+      WorkStatus.findByPk(
         { id: params.id },
       ).then((selectedInfo) => {
         resolve(selectedInfo);
@@ -57,25 +45,13 @@ const dao = {
   // 수정
   update(params) {
     return new Promise((resolve, reject) => {
-      Device.update(
+      WorkStatus.update(
         params,
         {
           where: { id: params.id },
         },
       ).then(([updated]) => {
         resolve({ updatedCount: updated });
-      }).catch((err) => {
-        reject(err);
-      });
-    });
-  },
-  // 삭제
-  delete(params) {
-    return new Promise((resolve, reject) => {
-      Device.destroy({
-        where: { id: params.id },
-      }).then((deleted) => {
-        resolve({ deletedCount: deleted });
       }).catch((err) => {
         reject(err);
       });

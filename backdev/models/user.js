@@ -33,4 +33,8 @@ module.exports = class User extends Sequelize.Model {
       timestamps: true,
     });
   }
+
+  static associate(db) {
+    db.User.hasMany(db.Emergency, { foreignKey: { name: 'emergencyId', sourceKey: 'id' } });
+  }
 };
