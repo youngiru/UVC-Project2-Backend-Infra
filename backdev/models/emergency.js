@@ -3,12 +3,6 @@ const Sequelize = require('sequelize');
 module.exports = class Emergency extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      userId: {
-        type: Sequelize.INTEGER,
-      },
-      workHistoryId: {
-        type: Sequelize.INTEGER,
-      },
       time: {
         type: Sequelize.DATE,
       },

@@ -1,6 +1,5 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const passport = require('passport');
 const userDao = require('../dao/userDao');
 const logger = require('../lib/logger');
 const tokenUtil = require('../lib/tokenUtil');

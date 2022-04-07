@@ -6,9 +6,6 @@ const dao = {
   insert(params) {
     return new Promise((resolve, reject) => {
       Sensor.create(params).then((inserted) => {
-        // password는 제외하고 리턴함
-        const insertedResult = { ...inserted };
-        delete insertedResult.dataValues.password;
         resolve(inserted);
       }).catch((err) => {
         reject(err);

@@ -7,7 +7,7 @@ exports.validationCheck = [
   body('userid').notEmpty().trim()
     .custom((value) => User.findOne({ where: { userid: value } }).then((user) => {
       if (user) {
-        return Promise.reject('Id already in use');
+        return Promise.reject('이미 사용중인 아이디입니다');
       }
     })),
   body('password').notEmpty().trim().isLength({ min: 4 })

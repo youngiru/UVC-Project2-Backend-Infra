@@ -46,11 +46,11 @@ const dao = {
       });
     });
   },
-  // 사용자 조회
+  // 사용자 싱세조회
   selectUser(params) {
     return new Promise((resolve, reject) => {
       User.findOne({
-        attributes: ['id', 'userid', 'password', 'name', 'rank', 'email', 'phone', 'role'],
+        attributes: { exclude: ['password'] }, // password 필드 제외
         where: { id: params.id },
       }).then((selectedOne) => {
         resolve(selectedOne);

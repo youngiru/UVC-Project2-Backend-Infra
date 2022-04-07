@@ -1,4 +1,5 @@
 const { Op } = require('sequelize');
+const { Device } = require('../models');
 const { WorkHistory } = require('../models/workHistory');
 
 const dao = {
@@ -29,13 +30,28 @@ const dao = {
       };
     }
 
+    // deviceId 검색
+    const setDeviceQuery = {};
+    if (params.deviceId) {
+      setDeviceQuery.where = {
+        ...setDeviceQuery.where,
+        id: params.deviceId,
+      };
+    }
+
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
 
     return new Promise((resolve, reject) => {
       WorkHistory.findAndCountAll({
         ...setQuery,
-        attributes: { exclude: ['password'] }, // password 필드 제외
+        include: [
+          {
+            model: Device,
+            ...setDeviceQuery,
+
+          },
+        ],
       }).then((selectedList) => {
         resolve(selectedList);
       }).catch((err) => {

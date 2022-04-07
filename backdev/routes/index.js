@@ -10,7 +10,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const router = express.Router();
 
 /* GET home page. */
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   res.render('index', { title: 'Express' });
 });
 
@@ -18,7 +18,7 @@ router.use('/users', usersRouter);
 router.use('/devices', deviceRouter);
 router.use('/sensors', sensorRouter);
 router.use('/workHistories', workHistoryRouter);
-router.use('/workStatus, workStatusRouter');
+router.use('/workStatus', workStatusRouter);
 router.use('/auths', authRouter);
 
 router.use((req, res, next) => {

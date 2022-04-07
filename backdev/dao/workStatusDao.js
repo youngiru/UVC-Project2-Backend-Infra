@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { WorkStatus } = require('../models/workStatus');
+const { WorkStatus, User, WorkHistory } = require('../models/index');
 
 const dao = {
   // 등록
@@ -12,17 +12,59 @@ const dao = {
       });
     });
   },
-  // 리스트 조회
+  // 작업 현황 리스트 조회
   selectList(params) {
     // where 검색 조건
     const setQuery = {};
+    if (params.start) {
+      setQuery.where = {
+        ...setQuery.where,
+        start: params.start,
+      };
+    }
+    if (params.ready) {
+      setQuery.where = {
+        ...setQuery.where,
+        ready: params.ready,
+      };
+    }
+    if (params.operating) {
+      setQuery.where = {
+        ...setQuery.where,
+        operating: params.operating,
+      };
+    }
+    if (params.reset) {
+      setQuery.where = {
+        ...setQuery.where,
+        reset: params.reset,
+      };
+    }
+
+    // userId 검색
+    const setUserQuery = {};
+    if (params.userId) {
+      setUserQuery.where = {
+        ...setUserQuery.where,
+        id: params.userId,
+      };
+    }
 
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
 
+    // 리스트 조회 결과
     return new Promise((resolve, reject) => {
       WorkStatus.findAndCountAll({
         ...setQuery,
+        include: [
+          {
+            model: User,
+            as: 'Users',
+            attributes: { exclude: ['password'] },
+            ...setUserQuery,
+          },
+        ],
       }).then((selectedList) => {
         resolve(selectedList);
       }).catch((err) => {
@@ -35,6 +77,19 @@ const dao = {
     return new Promise((resolve, reject) => {
       WorkStatus.findByPk(
         { id: params.id },
+        {
+          include: [
+            {
+              model: User,
+              as: 'Users',
+              attributes: { exclude: ['password'] },
+            },
+            {
+              model: WorkHistory,
+              as: 'WorkHistory',
+            },
+          ],
+        },
       ).then((selectedInfo) => {
         resolve(selectedInfo);
       }).catch((err) => {

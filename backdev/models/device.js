@@ -41,6 +41,6 @@ module.exports = class Device extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Device.hasMany(db.WorkHistory, { foreignKey: 'workHistoryId', sourceKey: 'id' });
+    db.Device.hasMany(db.WorkHistory, { foreignKey: 'deviceId', sourceKey: 'id' });
   }
 };

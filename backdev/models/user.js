@@ -35,6 +35,7 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.User.hasMany(db.Emergency, { foreignKey: { name: 'emergencyId', sourceKey: 'id' } });
+    db.User.hasMany(db.Emergency, { foreignKey: 'userId', sourceKey: 'id' });
+    db.User.belongsToMany(db.WorkStatus, { through: 'workingUser' }, { onDelete: 'CASCADE' });
   }
 };

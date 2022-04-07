@@ -1,4 +1,5 @@
 const express = require('express');
+const { Sequelize } = require('sequelize');
 
 const router = express.Router();
 const logger = require('../lib/logger');
@@ -67,33 +68,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// 수정
-router.put('/:id', async (req, res) => {
-  try {
-    const params = {
-      id: req.params.id,
-      name: req.body.name,
-      location: req.body.location,
-      edge_serial_number: req.body.edge_serial_number,
-      network_interface: req.body.network_interface,
-      network_config: req.body.network_config,
-      description: req.body.description,
-      operating: req.body.operating,
-      ready_state: req.body.ready_state,
-      inspection: req.body.inspection,
-    };
-    logger.info(`(workStatus.update.params) ${JSON.stringify(params)}`);
-
-    const result = await workStatusService.edit(params);
-    logger.info(`(workStatus.update.result) ${JSON.stringify(result)}`);
-
-    // 최종 응답
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).json({ err: err.toString() });
-  }
-});
-
 // 삭제
 router.delete('/:id', async (req, res) => {
   try {
@@ -107,6 +81,50 @@ router.delete('/:id', async (req, res) => {
 
     // 최종 응답
     res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 가동 상태 변동
+// eslint-disable-next-line consistent-return
+router.patch('/:id', async (req, res) => {
+  try {
+    const params = {
+      id: req.params.id,
+      targetQuantity: req.body.targetQuantity,
+      leadtime: req.body.leadtime,
+      color: req.body.color,
+      start: req.body.start,
+      ready: req.body.ready,
+      reset: req.body.reset,
+      operating: req.body.operating,
+    };
+    logger.info(`(workStatus.patch.params) ${JSON.stringify(params)}`);
+
+    // 가동상태 null 체크
+    if (params.operating === null) {
+      const err = new Error('Not allowed null (operating)');
+      logger.error(err.toString());
+
+      return res.status(500).json({ err: err.toString() });
+    }
+
+    // 로직 호출
+    const operatingStatus = await workStatusService.check(params);
+
+    // 가동상태 비교
+    if (operatingStatus === params.operating) {
+      return res.status(401).json({
+        msg: '가동 상태를 확인해주세요',
+      });
+    }
+    if (operatingStatus !== params.operating) {
+      const result = await workStatusService.edit(params);
+      logger.debug(`(operatingStatus.result) ${result}`);
+      // 최종 응답
+      res.status(200).json(result);
+    }
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }
