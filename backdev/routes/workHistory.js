@@ -1,35 +1,29 @@
 const express = require('express');
+const { Sequelize } = require('sequelize');
 
 const router = express.Router();
 const logger = require('../lib/logger');
-const workHistoryService = require('../service/workHistoryService');
+const workStatusService = require('../service/workStatusService');
 
 // 등록
 router.post('/', async (req, res) => {
   try {
     const params = {
-      uptime: req.body.uptime,
-      downtime: req.body.downtime,
-      emergency: req.body.emergency,
+      deviceId: req.body.deviceId,
+      emergencyId: req.body.emergencyId,
+      userId: req.body.userId,
+      workHistoryId: req.body.workHistoryId,
+      targetQuantity: req.body.targetQuantity,
       leadtime: req.body.leadtime,
-      input_item: req.body.input_item,
-      quality_item: req.body.quality_item,
-      defective_item: req.body.defective_item,
-      stock: req.body.stock,
+      color: req.body.color,
+      start: req.body.start,
+      reset: req.body.reset,
     };
-    logger.info(`(workHistory.reg.params) ${JSON.stringify(params)}`);
-
-    // 입력값 null 체크
-    if (!params.name) {
-      const err = new Error('Not allowed null (name)');
-      logger.error(err.toString());
-
-      res.status(500).json({ err: err.toString() });
-    }
+    logger.info(`(workStatus.reg.params) ${JSON.stringify(params)}`);
 
     // 비즈니스 로직 호출
-    const result = await workHistoryService.reg(params);
-    logger.info(`(workHistory.reg.result) ${JSON.stringify(result)}`);
+    const result = await workStatusService.reg(params);
+    logger.info(`(workStatus.reg.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
@@ -37,18 +31,17 @@ router.post('/', async (req, res) => {
     res.status(500).json({ err: err.toString() });
   }
 });
-
 // 리스트 조회
 router.get('/', async (req, res) => {
   try {
     const params = {
       name: req.query.name,
-      workHistoryid: req.query.workHistoryid,
+      deviceid: req.query.deviceid,
     };
-    logger.info(`(workHistory.list.params) ${JSON.stringify(params)}`);
+    logger.info(`(workStatus.list.params) ${JSON.stringify(params)}`);
 
-    const result = await workHistoryService.list(params);
-    logger.info(`(workHistory.list.result) ${JSON.stringify(result)}`);
+    const result = await workStatusService.list(params);
+    logger.info(`(workStatusService.list.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
@@ -63,10 +56,10 @@ router.get('/:id', async (req, res) => {
     const params = {
       id: req.params.id,
     };
-    logger.info(`(workHistory.info.params) ${JSON.stringify(params)}`);
+    logger.info(`(workStatusService.info.params) ${JSON.stringify(params)}`);
 
-    const result = await workHistoryService.info(params);
-    logger.info(`(workHistory.info.result) ${JSON.stringify(result)}`);
+    const result = await workStatusService.info(params);
+    logger.info(`(workStatusService.info.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
@@ -75,45 +68,45 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// 수정
-router.put('/:id', async (req, res) => {
+// 가동 상태 변동
+// eslint-disable-next-line consistent-return
+router.patch('/:id', async (req, res) => {
   try {
     const params = {
       id: req.params.id,
-      uptime: req.body.uptime,
-      downtime: req.body.downtime,
-      emergency: req.body.emergency,
+      targetQuantity: req.body.targetQuantity,
       leadtime: req.body.leadtime,
-      input_item: req.body.input_item,
-      quality_item: req.body.quality_item,
-      defective_item: req.body.defective_item,
-      stock: req.body.stock,
+      color: req.body.color,
+      start: req.body.start,
+      ready: req.body.ready,
+      reset: req.body.reset,
+      operating: req.body.operating,
     };
-    logger.info(`(workHistory.update.params) ${JSON.stringify(params)}`);
+    logger.info(`(workStatus.patch.params) ${JSON.stringify(params)}`);
 
-    const result = await workHistoryService.edit(params);
-    logger.info(`(workHistory.update.result) ${JSON.stringify(result)}`);
+    // 가동상태 null 체크
+    if (params.operating === null) {
+      const err = new Error('Not allowed null (operating)');
+      logger.error(err.toString());
 
-    // 최종 응답
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(500).json({ err: err.toString() });
-  }
-});
+      return res.status(500).json({ err: err.toString() });
+    }
 
-// 삭제
-router.delete('/:id', async (req, res) => {
-  try {
-    const params = {
-      id: req.params.id,
-    };
-    logger.info(`(workHistory.delete.params) ${JSON.stringify(params)}`);
+    // 로직 호출
+    const operatingStatus = await workStatusService.check(params);
 
-    const result = await workHistoryService.delete(params);
-    logger.info(`(workHistory.delete.result) ${JSON.stringify(result)}`);
-
-    // 최종 응답
-    res.status(200).json(result);
+    // 가동상태 비교
+    if (operatingStatus === params.operating) {
+      return res.status(401).json({
+        msg: '가동 상태를 확인해주세요',
+      });
+    }
+    if (operatingStatus !== params.operating) {
+      const result = await workStatusService.edit(params);
+      logger.debug(`(operatingStatus.result) ${result}`);
+      // 최종 응답
+      res.status(200).json(result);
+    }
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }

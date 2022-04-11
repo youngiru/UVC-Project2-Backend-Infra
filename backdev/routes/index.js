@@ -2,9 +2,9 @@ const express = require('express');
 const usersRouter = require('./user');
 const deviceRouter = require('./device');
 const sensorRouter = require('./sensor');
-const workHistoryRouter = require('./workHistory');
+const workMangementRouter = require('./workManagement');
 const authRouter = require('./auth');
-const workStatusRouter = require('./workStatus');
+const workHistoryRouter = require('./workHistory');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -17,8 +17,8 @@ router.get('/', (req, res) => {
 router.use('/users', usersRouter);
 router.use('/devices', deviceRouter);
 router.use('/sensors', sensorRouter);
-router.use('/workHistories', workHistoryRouter);
-router.use('/workStatuses', workStatusRouter);
+router.use('/workManagements', workMangementRouter);
+router.use('/workHistory', workHistoryRouter);
 router.use('/auths', authRouter);
 
 router.use((req, res, next) => {

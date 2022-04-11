@@ -1,34 +1,31 @@
 const Sequelize = require('sequelize');
 
-module.exports = class WorkHistory extends Sequelize.Model {
+module.exports = class WorkStatus extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      uptime: {
-        type: Sequelize.DATE,
-      },
-      downtime: {
-        type: Sequelize.DATE,
-      },
-      leadtime: {
-        type: Sequelize.STRING,
+      inputQuantity: {
+        type: Sequelize.INTEGER,
       },
       targetQuantity: {
         type: Sequelize.INTEGER,
       },
-      achievementRate: {
+      leadtime: {
         type: Sequelize.STRING,
       },
-      inputItem: {
-        type: Sequelize.INTEGER,
+      color: {
+        type: Sequelize.STRING,
       },
-      qualityItem: {
-        type: Sequelize.INTEGER,
+      start: {
+        type: Sequelize.BOOLEAN,
       },
-      defectiveItem: {
-        type: Sequelize.INTEGER,
+      ready: {
+        type: Sequelize.BOOLEAN,
       },
-      stock: {
-        type: Sequelize.INTEGER,
+      reset: {
+        type: Sequelize.BOOLEAN,
+      },
+      operating: {
+        type: Sequelize.BOOLEAN,
       },
     }, {
       sequelize,
@@ -39,9 +36,7 @@ module.exports = class WorkHistory extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.WorkHistory.belongsTo(db.Device, { foreignKey: { name: 'deviceId', onDelete: 'CASCADE', as: 'Device' }, targetKey: 'id' });
-    db.WorkHistory.belongsTo(db.Sensor, { foreignKey: { name: 'sensorId', onDelete: 'CASCADE', as: 'Sensor' }, targetKey: 'id' });
-    db.WorkHistory.hasMany(db.Emergency, { foreignKey: 'workHistoryId', sourceKey: 'id' });
-    db.WorkHistory.belongsToMany(db.WorkStatus, { through: 'work' }, { onDelete: 'CASCADE' });
+    db.WorkStatus.belongsToMany(db.WorkHistory, { through: 'work' }, { onDelete: 'CASCADE' });
+    db.WorkStatus.belongsToMany(db.User, { through: 'workingUser' }, { onDelete: 'CASCADE' });
   }
 };

@@ -1,74 +1,112 @@
 const { Op } = require('sequelize');
-const { Device, WorkStatus } = require('../models');
-const { WorkHistory } = require('../models/workHistory');
+const { WorkStatus, User, WorkHistory } = require('../models/index');
 
 const dao = {
   // 등록
   insert(params) {
     return new Promise((resolve, reject) => {
-      WorkHistory.create(params).then((inserted) => {
+      WorkStatus.create(params).then((inserted) => {
         resolve(inserted);
       }).catch((err) => {
         reject(err);
       });
     });
   },
-  // 리스트 조회
+  // 작업 현황 리스트 조회
   selectList(params) {
     // where 검색 조건
     const setQuery = {};
-    if (params.name) {
+    if (params.start) {
       setQuery.where = {
         ...setQuery.where,
-        name: { [Op.like]: `%${params.name}%` }, // like검색
+        start: params.start,
       };
     }
-    if (params.workHistoryid) {
+    if (params.ready) {
       setQuery.where = {
         ...setQuery.where,
-        workHistoryid: params.workHistoryid, // '='검색
+        ready: params.ready,
+      };
+    }
+    if (params.operating) {
+      setQuery.where = {
+        ...setQuery.where,
+        operating: params.operating,
+      };
+    }
+    if (params.reset) {
+      setQuery.where = {
+        ...setQuery.where,
+        reset: params.reset,
       };
     }
 
-    // deviceId 검색
-    const setDeviceQuery = {};
-    if (params.deviceId) {
-      setDeviceQuery.where = {
-        ...setDeviceQuery.where,
-        id: params.deviceId,
-      };
-    }
-
-    // workStatusesId 검색
-    const setWorkStatusQuery = {};
-    if (params.workStatusId) {
-      setWorkStatusQuery.where = {
-        ...setWorkStatusQuery.where,
-        id: params.workStatusId,
+    // userId 검색
+    const setUserQuery = {};
+    if (params.userId) {
+      setUserQuery.where = {
+        ...setUserQuery.where,
+        id: params.userId,
       };
     }
 
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
 
+    // 리스트 조회 결과
     return new Promise((resolve, reject) => {
-      WorkHistory.findAndCountAll({
+      WorkStatus.findAndCountAll({
         ...setQuery,
         include: [
           {
-            model: Device,
-            as: 'Devices',
-            ...setDeviceQuery,
-
-          },
-          {
-            model: WorkStatus,
-            as: 'WorkStatuses',
-            ...setWorkStatusQuery,
+            model: User,
+            as: 'Users',
+            attributes: { exclude: ['password'] },
+            ...setUserQuery,
           },
         ],
       }).then((selectedList) => {
         resolve(selectedList);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 상세정보 조회
+  selectInfo(params) {
+    return new Promise((resolve, reject) => {
+      WorkStatus.findByPk(
+        { id: params.id },
+        {
+          include: [
+            {
+              model: User,
+              as: 'Users',
+              attributes: { exclude: ['password'] },
+            },
+            {
+              model: WorkHistory,
+              as: 'WorkHistory',
+            },
+          ],
+        },
+      ).then((selectedInfo) => {
+        resolve(selectedInfo);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  },
+  // 수정
+  update(params) {
+    return new Promise((resolve, reject) => {
+      WorkStatus.update(
+        params,
+        {
+          where: { id: params.id },
+        },
+      ).then(([updated]) => {
+        resolve({ updatedCount: updated });
       }).catch((err) => {
         reject(err);
       });
