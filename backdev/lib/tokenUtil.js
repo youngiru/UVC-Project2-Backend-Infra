@@ -3,7 +3,7 @@ const logger = require('./logger');
 
 const secretKey = '2B4D6251655468566D597133743677397A24432646294A404E635266556A586E';
 const options = {
-  expiresIn: '2h', // 만료시간
+  expiresIn: '2d', // 만료시간
 };
 
 const tokenUtil = {
@@ -13,6 +13,9 @@ const tokenUtil = {
       id: user.id,
       userid: user.userid,
       name: user.name,
+      rank: user.rank,
+      email: user.email,
+      phone: user.phone,
       role: user.role,
     };
 

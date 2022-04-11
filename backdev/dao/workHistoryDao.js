@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Device } = require('../models');
+const { Device, WorkStatus } = require('../models');
 const { WorkHistory } = require('../models/workHistory');
 
 const dao = {
@@ -39,6 +39,15 @@ const dao = {
       };
     }
 
+    // workStatusesId 검색
+    const setWorkStatusQuery = {};
+    if (params.workStatusId) {
+      setWorkStatusQuery.where = {
+        ...setWorkStatusQuery.where,
+        id: params.workStatusId,
+      };
+    }
+
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
 
@@ -48,8 +57,14 @@ const dao = {
         include: [
           {
             model: Device,
+            as: 'Devices',
             ...setDeviceQuery,
 
+          },
+          {
+            model: WorkStatus,
+            as: 'WorkStatuses',
+            ...setWorkStatusQuery,
           },
         ],
       }).then((selectedList) => {

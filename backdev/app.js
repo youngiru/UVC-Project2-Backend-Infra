@@ -29,6 +29,7 @@ app.set('view engine', 'ejs');
 
 // DB 연결 확인 및 table 생성
 models.sequelize.authenticate().then(() => {
+  // models.sequelize.sync({ force: true }).then(() => {
   logger.info('DB connection success');
   // sequelize sync (table 생성)
   models.sequelize.sync().then(() => {
@@ -39,6 +40,7 @@ models.sequelize.authenticate().then(() => {
 }).catch((err) => {
   logger.error('DB Connection fail', err);
 });
+// });
 
 passportConfig(); // 패스포트 설정
 

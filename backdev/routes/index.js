@@ -18,7 +18,7 @@ router.use('/users', usersRouter);
 router.use('/devices', deviceRouter);
 router.use('/sensors', sensorRouter);
 router.use('/workHistories', workHistoryRouter);
-router.use('/workStatus', workStatusRouter);
+router.use('/workStatuses', workStatusRouter);
 router.use('/auths', authRouter);
 
 router.use((req, res, next) => {

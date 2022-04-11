@@ -3,6 +3,9 @@ const Sequelize = require('sequelize');
 module.exports = class WorkStatus extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
+      inputQuantity: {
+        type: Sequelize.INTEGER,
+      },
       targetQuantity: {
         type: Sequelize.INTEGER,
       },
