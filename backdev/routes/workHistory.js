@@ -1,5 +1,4 @@
 const express = require('express');
-const { Sequelize } = require('sequelize');
 
 const router = express.Router();
 const logger = require('../lib/logger');
@@ -13,11 +12,13 @@ router.post('/', async (req, res) => {
       emergencyId: req.body.emergencyId,
       userId: req.body.userId,
       workHistoryId: req.body.workHistoryId,
+      inputQuantity: req.body.inputQuantity,
       targetQuantity: req.body.targetQuantity,
       leadtime: req.body.leadtime,
       color: req.body.color,
-      start: req.body.start,
+      ready: req.body.ready,
       reset: req.body.reset,
+      operating: req.body.operating,
     };
     logger.info(`(workHistory.reg.params) ${JSON.stringify(params)}`);
 
@@ -87,7 +88,7 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
-// 가동 상태 변동
+// 가동 상태 변동(시작, 정지)
 // eslint-disable-next-line consistent-return
 router.put('/:id', async (req, res) => {
   try {
@@ -126,6 +127,105 @@ router.put('/:id', async (req, res) => {
       // 최종 응답
       res.status(200).json(result);
     }
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 중지
+// eslint-disable-next-line consistent-return
+router.put('/stop', async (req, res) => {
+  try {
+    const params = {
+      deviceId: req.body.deviceId,
+      emergencyId: req.body.emergencyId,
+      userId: req.body.userId,
+      workHistoryId: req.body.workHistoryId,
+      inputQuantity: req.body.inputQuantity,
+      targetQuantity: req.body.targetQuantity,
+      outputQuantity: req.body.outputQuantity,
+      stock: req.body.stock,
+      leadtime: req.body.leadtime,
+      color: req.body.color,
+      ready: req.body.ready,
+      reset: req.body.reset,
+      operating: req.body.operating,
+    };
+    logger.info(`(workStatus.put.stop.params) ${JSON.stringify(params)}`);
+
+    // operating값 null 체크
+    if (!params.operating) {
+      const err = new Error('Not allowed null (operating)');
+      logger.error(err.toString());
+
+      return res.status(500).json({ err: err.toString() });
+    }
+
+    // 가동상태 확인 및 중지시각
+    if (params.operating === true) {
+      return res.status(401).json({
+        msg: '가동중입니다',
+      });
+    }
+    const downtime = new Date();
+
+    // 비즈니스 로직 호출
+    const time = await workHistoryService.edit(downtime);
+    logger.info(`(workStatus.put.reset.time) ${JSON.stringify(time)}`);
+
+    const result = await workHistoryService.edit(params);
+    logger.info(`(workStatus.put.reset.result) ${JSON.stringify(result)}`);
+
+    // 최종 응답
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 리셋
+// eslint-disable-next-line consistent-return
+router.put('/reset', async (req, res) => {
+  try {
+    const params = {
+      deviceId: req.body.deviceId,
+      emergencyId: req.body.emergencyId,
+      userId: req.body.userId,
+      workHistoryId: req.body.workHistoryId,
+      inputQuantity: req.body.inputQuantity,
+      targetQuantity: req.body.targetQuantity,
+      outputQuantity: req.body.outputQuantity,
+      stock: req.body.stock,
+      leadtime: req.body.leadtime,
+      color: req.body.color,
+      ready: req.body.ready,
+      reset: req.body.reset,
+      operating: req.body.operating,
+    };
+    logger.info(`(workStatus.put.reset.params) ${JSON.stringify(params)}`);
+
+    // operating값 null 체크
+    if (!params.operating) {
+      const err = new Error('Not allowed null (operating)');
+      logger.error(err.toString());
+
+      return res.status(500).json({ err: err.toString() });
+    }
+
+    // 가동상태 확인 및 재고 계산
+    if (params.operating === true) {
+      return res.status(401).json({
+        msg: '가동중입니다',
+      });
+    }
+    // const stock = params.inputQuantity - params.outputQuantity;
+
+    // 비즈니스 로직 호출
+    const result = await workHistoryService.edit(params);
+    logger.info(`(workStatus.put.reset.result) ${JSON.stringify(result)}`);
+
+    // 최종 응답
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }
