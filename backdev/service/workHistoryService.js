@@ -2,6 +2,33 @@ const logger = require('../lib/logger');
 const workHistoryDao = require('../dao/workHistoryDao');
 
 const service = {
+  // 준비 상태 변동
+  async readyCheck(params) {
+    let newReady = null;
+
+    try {
+      // 이전 준비상태 확인
+      const workHistory = await workHistoryDao.selectInfo(params);
+      if (workHistory.ready === true) {
+        newReady = await workHistoryDao.update(params.ready);
+        logger.debug(`(workHistoryService.readyCheck) ${JSON.stringify(newReady)}`);
+      }
+      if (workHistory.ready === false) {
+        newReady = await workHistoryDao.update(params.ready);
+        logger.debug(`(workHistoryService.readyCheck) ${JSON.stringify(newReady)}`);
+      }
+    } catch (err) {
+      logger.error(`(workHistoryService.readyCheck) ${err.toString()}`);
+      return new Promise((reject) => {
+        reject(err);
+      });
+    }
+    // 결과값 리턴
+    return new Promise((resolve) => {
+      resolve(newReady);
+    });
+  },
+
   // 조건 확인 후 db에 insert
   // 장비 유무 확인 & 가동상태 확인
   async check(params) {
@@ -13,14 +40,14 @@ const service = {
       const workHistory = await workHistoryDao.selectInfo(params);
       logger.debug(`(workHistoryService.check.device) ${JSON.stringify(workHistory)}`);
       if (!workHistory) {
-        const nreWorkHistory = await workHistoryDao.insert(params);
-        logger.debug(`(workHistoryService.check.nreWorkHistory) ${JSON.stringify(nreWorkHistory)}`);
+        const newWorkHistory = await workHistoryDao.insert(params);
+        logger.debug(`(workHistoryService.check.newWorkHistory) ${JSON.stringify(newWorkHistory)}`);
       }
       ready = workHistory.ready;
       logger.debug(`(workHistoryService.check.ready) ${JSON.stringify(ready)}`);
 
       // 준비상태 확인
-      if (ready) {
+      if (ready === true) {
         operating = workHistory.operating;
         logger.debug(`(workHistoryService.check.operating) ${JSON.stringify(operating)}`);
       } else {
@@ -82,6 +109,24 @@ const service = {
       logger.debug(`(workHistoryService.info) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(workHistoryService.info) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+
+    return new Promise((resolve) => {
+      resolve(result);
+    });
+  },
+  // update
+  async edit(params) {
+    let result = null;
+
+    try {
+      result = await workHistoryDao.update(params);
+      logger.debug(`(workManagementService.edit) ${JSON.stringify(result)}`);
+    } catch (err) {
+      logger.error(`(workManagementService.edit) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });

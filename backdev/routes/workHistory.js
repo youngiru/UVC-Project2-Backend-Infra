@@ -68,25 +68,44 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// 가동 상태 변동
-// eslint-disable-next-line consistent-return
+// 준비상태
 router.patch('/:id', async (req, res) => {
   try {
     const params = {
       id: req.params.id,
+      ready: req.body.ready,
+    };
+    logger.info(`(workHistory.patch.ready) ${JSON.stringify(params)}`);
+
+    const result = await workHistoryService.readyCheck;
+    logger.info(`(workHistory.patch.result) ${JSON.stringify(result)}`);
+
+    // 최종 응답
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 가동 상태 변동
+// eslint-disable-next-line consistent-return
+router.put('/:id', async (req, res) => {
+  try {
+    const params = {
+      id: req.params.id,
+      inputQuantity: req.body.inputQuantity,
       targetQuantity: req.body.targetQuantity,
       leadtime: req.body.leadtime,
       color: req.body.color,
-      start: req.body.start,
       ready: req.body.ready,
       reset: req.body.reset,
       operating: req.body.operating,
     };
     logger.info(`(workHistory.patch.params) ${JSON.stringify(params)}`);
 
-    // 가동상태 null 체크
-    if (params.operating === null) {
-      const err = new Error('Not allowed null (operating)');
+    // 준비상태 체크
+    if (params.ready !== true) {
+      const err = new Error('준비상태를 체크하세요');
       logger.error(err.toString());
 
       return res.status(500).json({ err: err.toString() });

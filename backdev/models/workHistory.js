@@ -15,9 +15,6 @@ module.exports = class WorkHistory extends Sequelize.Model {
       color: {
         type: Sequelize.STRING,
       },
-      start: {
-        type: Sequelize.BOOLEAN,
-      },
       ready: {
         type: Sequelize.BOOLEAN,
       },
@@ -25,7 +22,7 @@ module.exports = class WorkHistory extends Sequelize.Model {
         type: Sequelize.BOOLEAN,
       },
       operating: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.BOOLEAN, // true: 시작, false: 정지
       },
     }, {
       sequelize,

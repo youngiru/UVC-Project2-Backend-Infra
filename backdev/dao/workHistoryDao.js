@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { WorkManagement, User, WorkHistory } = require('../models/index');
+const { User, WorkHistory } = require('../models/index');
 
 const dao = {
   // 등록
