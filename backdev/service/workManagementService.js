@@ -7,9 +7,9 @@ const service = {
 
     try {
       inserted = await workManagementDao.insert(params);
-      logger.debug(`(workHistoryService.reg) ${JSON.stringify(inserted)}`);
+      logger.debug(`(workManagementService.reg) ${JSON.stringify(inserted)}`);
     } catch (err) {
-      logger.error(`(workHistoryService.reg) ${err.toString()}`);
+      logger.error(`(workManagementService.reg) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -26,9 +26,9 @@ const service = {
 
     try {
       result = await workManagementDao.selectList(params);
-      logger.debug(`(workHistoryService.list) ${JSON.stringify(result)}`);
+      logger.debug(`(workManagementService.list) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(workHistoryService.list) ${err.toString()}`);
+      logger.error(`(workManagementService.list) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -44,9 +44,9 @@ const service = {
 
     try {
       result = await workManagementDao.selectInfo(params);
-      logger.debug(`(workHistoryService.info) ${JSON.stringify(result)}`);
+      logger.debug(`(workManagementService.info) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(workHistoryService.info) ${err.toString()}`);
+      logger.error(`(workManagementService.info) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -62,9 +62,9 @@ const service = {
 
     try {
       result = await workManagementDao.update(params);
-      logger.debug(`(workHistoryService.edit) ${JSON.stringify(result)}`);
+      logger.debug(`(workManagementService.edit) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(workHistoryService.edit) ${err.toString()}`);
+      logger.error(`(workManagementService.edit) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });
@@ -80,9 +80,9 @@ const service = {
 
     try {
       result = await workManagementDao.delete(params);
-      logger.debug(`(workHistoryService.delete) ${JSON.stringify(result)}`);
+      logger.debug(`(workManagementService.delete) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(workHistoryService.delete) ${err.toString()}`);
+      logger.error(`(workManagementService.delete) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });

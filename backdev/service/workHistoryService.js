@@ -10,24 +10,24 @@ const service = {
 
     try {
       // 이전 상태 불러오기(없으면 새롭게 만듦)
-      const workStatus = await workHistoryDao.selectInfo(params);
-      logger.debug(`(workStatusService.check.device) ${JSON.stringify(workStatus)}`);
-      if (!workStatus) {
-        const newWorkStatus = await workHistoryDao.insert(params);
-        logger.debug(`(workStatusService.check.newWorkStatus) ${JSON.stringify(newWorkStatus)}`);
+      const workHistory = await workHistoryDao.selectInfo(params);
+      logger.debug(`(workHistoryService.check.device) ${JSON.stringify(workHistory)}`);
+      if (!workHistory) {
+        const nreWorkHistory = await workHistoryDao.insert(params);
+        logger.debug(`(workHistoryService.check.nreWorkHistory) ${JSON.stringify(nreWorkHistory)}`);
       }
-      ready = workStatus.ready;
-      logger.debug(`(workStatusService.check.ready) ${JSON.stringify(ready)}`);
+      ready = workHistory.ready;
+      logger.debug(`(workHistoryService.check.ready) ${JSON.stringify(ready)}`);
 
       // 준비상태 확인
       if (ready) {
-        operating = workStatus.operating;
-        logger.debug(`(workStatusService.check.operating) ${JSON.stringify(operating)}`);
+        operating = workHistory.operating;
+        logger.debug(`(workHistoryService.check.operating) ${JSON.stringify(operating)}`);
       } else {
         return '준비 상태를 확인해주세요';
       }
     } catch (err) {
-      logger.error(`(workStatusService.check) ${err.toString()}`);
+      logger.error(`(workHistoryService.check) ${err.toString()}`);
       return new Promise((reject) => {
         reject(err);
       });
@@ -61,9 +61,9 @@ const service = {
 
     try {
       result = await workHistoryDao.selectList(params);
-      logger.debug(`(workStatusService.list) ${JSON.stringify(result)}`);
+      logger.debug(`(workHistoryService.list) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(workStatus.list) ${err.toString()}`);
+      logger.error(`(workHistory.list) ${err.toString()}`);
       return new Promise((reject) => {
         reject(err);
       });
@@ -79,9 +79,9 @@ const service = {
 
     try {
       result = await workHistoryDao.selectInfo(params);
-      logger.debug(`(workStatusService.info) ${JSON.stringify(result)}`);
+      logger.debug(`(workHistoryService.info) ${JSON.stringify(result)}`);
     } catch (err) {
-      logger.error(`(workStatusService.info) ${err.toString()}`);
+      logger.error(`(workHistoryService.info) ${err.toString()}`);
       return new Promise((resolve, reject) => {
         reject(err);
       });

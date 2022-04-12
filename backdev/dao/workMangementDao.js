@@ -1,12 +1,12 @@
 const { Op } = require('sequelize');
-const { Device, WorkStatus } = require('../models');
-const { WorkHistory } = require('../models/workMangement');
+const { Device, WorkHistory } = require('../models');
+const WorkManagement = require('../models/workManagement');
 
 const dao = {
   // 등록
   insert(params) {
     return new Promise((resolve, reject) => {
-      WorkHistory.create(params).then((inserted) => {
+      WorkManagement.create(params).then((inserted) => {
         resolve(inserted);
       }).catch((err) => {
         reject(err);
@@ -39,12 +39,12 @@ const dao = {
       };
     }
 
-    // workStatusesId 검색
-    const setWorkStatusQuery = {};
-    if (params.workStatusId) {
-      setWorkStatusQuery.where = {
-        ...setWorkStatusQuery.where,
-        id: params.workStatusId,
+    // workHistoryId 검색
+    const setWorkHistoryQuery = {};
+    if (params.workHistoryId) {
+      setWorkHistoryQuery.where = {
+        ...setWorkHistoryQuery.where,
+        id: params.workHistoryId,
       };
     }
 
@@ -52,7 +52,7 @@ const dao = {
     setQuery.order = [['id', 'DESC']];
 
     return new Promise((resolve, reject) => {
-      WorkHistory.findAndCountAll({
+      WorkManagement.findAndCountAll({
         ...setQuery,
         include: [
           {
@@ -62,9 +62,9 @@ const dao = {
 
           },
           {
-            model: WorkStatus,
-            as: 'WorkStatuses',
-            ...setWorkStatusQuery,
+            model: WorkHistory,
+            as: 'WorkHistory',
+            ...setWorkHistoryQuery,
           },
         ],
       }).then((selectedList) => {

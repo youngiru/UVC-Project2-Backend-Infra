@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-module.exports = class WorkStatus extends Sequelize.Model {
+module.exports = class WorkHistory extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
       inputQuantity: {
@@ -36,7 +36,7 @@ module.exports = class WorkStatus extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.WorkStatus.belongsToMany(db.WorkHistory, { through: 'work' }, { onDelete: 'CASCADE' });
-    db.WorkStatus.belongsToMany(db.User, { through: 'workingUser' }, { onDelete: 'CASCADE' });
+    db.WorkHistory.belongsToMany(db.WorkManagement, { through: 'work' }, { onDelete: 'CASCADE' });
+    db.WorkHistory.belongsToMany(db.User, { through: 'workingUser' }, { onDelete: 'CASCADE' });
   }
 };

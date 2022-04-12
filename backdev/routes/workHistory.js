@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 
 const router = express.Router();
 const logger = require('../lib/logger');
-const workStatusService = require('../service/workStatusService');
+const workHistoryService = require('../service/workHistoryService');
 
 // 등록
 router.post('/', async (req, res) => {
@@ -19,11 +19,11 @@ router.post('/', async (req, res) => {
       start: req.body.start,
       reset: req.body.reset,
     };
-    logger.info(`(workStatus.reg.params) ${JSON.stringify(params)}`);
+    logger.info(`(workHistory.reg.params) ${JSON.stringify(params)}`);
 
     // 비즈니스 로직 호출
-    const result = await workStatusService.reg(params);
-    logger.info(`(workStatus.reg.result) ${JSON.stringify(result)}`);
+    const result = await workHistoryService.reg(params);
+    logger.info(`(workHistory.reg.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
@@ -38,10 +38,10 @@ router.get('/', async (req, res) => {
       name: req.query.name,
       deviceid: req.query.deviceid,
     };
-    logger.info(`(workStatus.list.params) ${JSON.stringify(params)}`);
+    logger.info(`(workHistory.list.params) ${JSON.stringify(params)}`);
 
-    const result = await workStatusService.list(params);
-    logger.info(`(workStatusService.list.result) ${JSON.stringify(result)}`);
+    const result = await workHistoryService.list(params);
+    logger.info(`(workHistoryService.list.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
@@ -56,10 +56,10 @@ router.get('/:id', async (req, res) => {
     const params = {
       id: req.params.id,
     };
-    logger.info(`(workStatusService.info.params) ${JSON.stringify(params)}`);
+    logger.info(`(workHistoryService.info.params) ${JSON.stringify(params)}`);
 
-    const result = await workStatusService.info(params);
-    logger.info(`(workStatusService.info.result) ${JSON.stringify(result)}`);
+    const result = await workHistoryService.info(params);
+    logger.info(`(workHistoryService.info.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
@@ -82,7 +82,7 @@ router.patch('/:id', async (req, res) => {
       reset: req.body.reset,
       operating: req.body.operating,
     };
-    logger.info(`(workStatus.patch.params) ${JSON.stringify(params)}`);
+    logger.info(`(workHistory.patch.params) ${JSON.stringify(params)}`);
 
     // 가동상태 null 체크
     if (params.operating === null) {
@@ -93,7 +93,7 @@ router.patch('/:id', async (req, res) => {
     }
 
     // 로직 호출
-    const operatingStatus = await workStatusService.check(params);
+    const operatingStatus = await workHistoryService.check(params);
 
     // 가동상태 비교
     if (operatingStatus === params.operating) {
@@ -102,7 +102,7 @@ router.patch('/:id', async (req, res) => {
       });
     }
     if (operatingStatus !== params.operating) {
-      const result = await workStatusService.edit(params);
+      const result = await workHistoryService.edit(params);
       logger.debug(`(operatingStatus.result) ${result}`);
       // 최종 응답
       res.status(200).json(result);

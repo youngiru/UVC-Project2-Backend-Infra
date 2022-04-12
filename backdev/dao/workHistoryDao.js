@@ -1,11 +1,11 @@
 const { Op } = require('sequelize');
-const { WorkStatus, User, WorkHistory } = require('../models/index');
+const { WorkManagement, User, WorkHistory } = require('../models/index');
 
 const dao = {
   // 등록
   insert(params) {
     return new Promise((resolve, reject) => {
-      WorkStatus.create(params).then((inserted) => {
+      WorkHistory.create(params).then((inserted) => {
         resolve(inserted);
       }).catch((err) => {
         reject(err);
@@ -55,7 +55,7 @@ const dao = {
 
     // 리스트 조회 결과
     return new Promise((resolve, reject) => {
-      WorkStatus.findAndCountAll({
+      WorkHistory.findAndCountAll({
         ...setQuery,
         include: [
           {
@@ -75,7 +75,7 @@ const dao = {
   // 상세정보 조회
   selectInfo(params) {
     return new Promise((resolve, reject) => {
-      WorkStatus.findByPk(
+      WorkHistory.findByPk(
         { id: params.id },
         {
           include: [
@@ -100,7 +100,7 @@ const dao = {
   // 수정
   update(params) {
     return new Promise((resolve, reject) => {
-      WorkStatus.update(
+      WorkHistory.update(
         params,
         {
           where: { id: params.id },

@@ -4,7 +4,7 @@ const Device = require('./device');
 const Sensor = require('./sensor');
 const WorkHistory = require('./workHistory');
 const Emergency = require('./emergency');
-const WorkStatus = require('./workStatus');
+const WorkManagement = require('./workManagement');
 
 const db = {};
 
@@ -16,7 +16,7 @@ db.Device = Device;
 db.Sensor = Sensor;
 db.WorkHistory = WorkHistory;
 db.Emergency = Emergency;
-db.WorkStatus = WorkStatus;
+db.WorkManagement = WorkManagement;
 
 // model init
 User.init(sequelize);
@@ -24,7 +24,7 @@ Device.init(sequelize);
 Sensor.init(sequelize);
 WorkHistory.init(sequelize);
 Emergency.init(sequelize);
-WorkStatus.init(sequelize);
+WorkManagement.init(sequelize);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
