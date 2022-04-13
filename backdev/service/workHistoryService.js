@@ -9,13 +9,13 @@ const service = {
     try {
       // 이전 준비상태 확인
       const workHistory = await workHistoryDao.selectInfo(params);
-      if (workHistory.ready === true) {
-        newReady = await workHistoryDao.update(params.ready);
-        logger.debug(`(workHistoryService.readyCheck) ${JSON.stringify(newReady)}`);
-      }
-      if (workHistory.ready === false) {
-        newReady = await workHistoryDao.update(params.ready);
-        logger.debug(`(workHistoryService.readyCheck) ${JSON.stringify(newReady)}`);
+      logger.info(`(service.readycheck.workHistory) ${workHistory.ready}`);
+      if (workHistory.ready === params.ready) {
+        newReady = params.ready;
+        logger.info(`(workHistoryService.readycheck) ${newReady}`);
+      } else if (workHistory.ready !== params.ready) {
+        newReady = await workHistoryDao.update(params);
+        logger.debug(`(workHistoryService.readyCheck.newReady) ${JSON.stringify(newReady)}`);
       }
     } catch (err) {
       logger.error(`(workHistoryService.readyCheck) ${err.toString()}`);
@@ -33,21 +33,18 @@ const service = {
   // 장비 유무 확인 & 가동상태 확인
   async check(params) {
     let operating = null;
-    let ready = null;
 
     try {
       // 이전 상태 불러오기(없으면 새롭게 만듦)
       const workHistory = await workHistoryDao.selectInfo(params);
-      logger.debug(`(workHistoryService.check.device) ${JSON.stringify(workHistory)}`);
+      logger.debug(`(workHistoryService.check.workHistory) ${JSON.stringify(workHistory)}`);
       if (!workHistory) {
         const newWorkHistory = await workHistoryDao.insert(params);
         logger.debug(`(workHistoryService.check.newWorkHistory) ${JSON.stringify(newWorkHistory)}`);
       }
-      ready = workHistory.ready;
-      logger.debug(`(workHistoryService.check.ready) ${JSON.stringify(ready)}`);
 
       // 준비상태 확인
-      if (ready === true) {
+      if (workHistory.ready === true) {
         operating = workHistory.operating;
         logger.debug(`(workHistoryService.check.operating) ${JSON.stringify(operating)}`);
       } else {

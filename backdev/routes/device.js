@@ -15,8 +15,6 @@ router.post('/', async (req, res) => {
       network_config: req.body.network_config,
       description: req.body.description,
       operating: req.body.operating,
-      ready_state: req.body.ready_state,
-      inspection: req.body.inspection,
     };
     logger.info(`(device.reg.params) ${JSON.stringify(params)}`);
 

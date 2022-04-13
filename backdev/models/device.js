@@ -24,12 +24,6 @@ module.exports = class Device extends Sequelize.Model {
       operating: {
         type: Sequelize.BOOLEAN,
       },
-      ready_state: {
-        type: Sequelize.BOOLEAN,
-      },
-      inspection: {
-        type: Sequelize.BOOLEAN,
-      },
     }, {
       sequelize,
       // tableName: 'tableName', // table명을 수동으로 생성 함

@@ -1,4 +1,5 @@
 const { Op } = require('sequelize');
+const logger = require('../lib/logger');
 const { User, WorkHistory } = require('../models/index');
 
 const dao = {
@@ -74,22 +75,18 @@ const dao = {
   },
   // 상세정보 조회
   selectInfo(params) {
+    logger.debug(`workHistoryDao.selectInfo ${params.id}`);
     return new Promise((resolve, reject) => {
       WorkHistory.findByPk(
-        { id: params.id },
-        {
-          include: [
-            {
-              model: User,
-              as: 'Users',
-              attributes: { exclude: ['password'] },
-            },
-            {
-              model: WorkHistory,
-              as: 'WorkHistory',
-            },
-          ],
-        },
+        params.id,
+        // {
+        //   include:
+        //     {
+        //       model: User,
+        //       as: 'Users',
+        //       attributes: { exclude: ['password'] },
+        //     },
+        // },
       ).then((selectedInfo) => {
         resolve(selectedInfo);
       }).catch((err) => {

@@ -9,7 +9,7 @@ module.exports = class WorkHistory extends Sequelize.Model {
       targetQuantity: {
         type: Sequelize.INTEGER,
       },
-      yield: {
+      outputQuantity: {
         type: Sequelize.INTEGER,
       },
       stock: {

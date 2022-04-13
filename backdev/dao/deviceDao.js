@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Device } = require('../models/device');
+const Device = require('../models/device');
 
 const dao = {
   // 등록
