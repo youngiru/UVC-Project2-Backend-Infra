@@ -22,12 +22,6 @@ const dao = {
         name: { [Op.like]: `%${params.deviceId}%` }, // like검색
       };
     }
-    if (params.emergencyid) {
-      setQuery.where = {
-        ...setQuery.where,
-        emergencyid: params.emergencyid, // '='검색
-      };
-    }
 
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];

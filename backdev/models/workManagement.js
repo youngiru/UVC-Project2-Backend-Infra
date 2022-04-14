@@ -41,7 +41,6 @@ module.exports = class WorkManagement extends Sequelize.Model {
   static associate(db) {
     db.WorkManagement.belongsTo(db.Device, { foreignKey: { name: 'deviceId', onDelete: 'CASCADE', as: 'Device' }, targetKey: 'id' });
     db.WorkManagement.belongsTo(db.Sensor, { foreignKey: { name: 'sensorId', onDelete: 'CASCADE', as: 'Sensor' }, targetKey: 'id' });
-    db.WorkManagement.hasMany(db.Emergency, { foreignKey: 'emergencyId', sourceKey: 'id' });
     db.WorkManagement.belongsToMany(db.WorkHistory, { through: 'work' }, { onDelete: 'CASCADE' });
   }
 };
