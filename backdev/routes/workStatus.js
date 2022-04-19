@@ -42,14 +42,7 @@ router.post('/', async (req, res) => {
 // 작업이력 리스트 조회
 router.get('/', async (req, res) => {
   try {
-    const params = {
-      deviceId: req.query.deviceId,
-      userId: req.query.userId,
-      operating: req.query.operating,
-    };
-    logger.info(`(workHistory.list.params) ${JSON.stringify(params)}`);
-
-    const result = await workHistoryService.list(params);
+    const result = await workHistoryService.list();
     logger.info(`(workHistoryService.list.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
@@ -188,7 +181,7 @@ router.put('/done/:id', async (req, res) => {
       defectiveRate: req.body.defectiveRate,
       stock: req.body.stock,
       downtime: req.body.downtime,
-      operating: req.body.operating || false,
+      operating: false,
     };
     logger.info(`(workStatus.done.params) ${JSON.stringify(params)}`);
 

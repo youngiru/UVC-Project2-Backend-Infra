@@ -1,4 +1,5 @@
 const logger = require('../lib/logger');
+const influxDao = require('../lib/influx');
 const workHistoryDao = require('../dao/workHistoryDao');
 
 const service = {
@@ -79,13 +80,16 @@ const service = {
       resolve(inserted);
     });
   },
+
   // selectList
-  async list(params) {
+  // async list(params) {
+  async list() {
     let result = null;
 
     try {
-      result = await workHistoryDao.selectList(params);
-      logger.debug(`(workHistoryService.list) ${JSON.stringify(result)}`);
+      // result = await workHistoryDao.selectList(params);
+      result = await workHistoryDao.selectList();
+      // logger.debug(`(workHistoryService.list) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(workHistory.list) ${err.toString()}`);
       return new Promise((reject) => {
@@ -97,6 +101,7 @@ const service = {
       resolve(result);
     });
   },
+
   // selectInfo
   async info(params) {
     let result = null;
@@ -115,6 +120,7 @@ const service = {
       resolve(result);
     });
   },
+
   // update
   async edit(params) {
     let result = null;

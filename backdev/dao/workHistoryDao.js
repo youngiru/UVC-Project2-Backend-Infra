@@ -17,56 +17,31 @@ const dao = {
   selectList(params) {
     // where 검색 조건
     const setQuery = {};
-    if (params.start) {
-      setQuery.where = {
-        ...setQuery.where,
-        start: params.start,
-      };
-    }
-    if (params.ready) {
-      setQuery.where = {
-        ...setQuery.where,
-        ready: params.ready,
-      };
-    }
-    if (params.operating) {
-      setQuery.where = {
-        ...setQuery.where,
-        operating: params.operating,
-      };
-    }
-    if (params.reset) {
-      setQuery.where = {
-        ...setQuery.where,
-        reset: params.reset,
-      };
-    }
 
-    // userId 검색
-    const setUserQuery = {};
-    if (params.userId) {
-      setUserQuery.where = {
-        ...setUserQuery.where,
-        id: params.userId,
-      };
-    }
+    // // userId 검색
+    // const setUserQuery = {};
+    // if (params.userId) {
+    //   setUserQuery.where = {
+    //     ...setUserQuery.where,
+    //     id: params.userId,
+    //   };
+    // }
 
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
 
     // 리스트 조회 결과
     return new Promise((resolve, reject) => {
-      WorkHistory.findAndCountAll({
-        ...setQuery,
-        include: [
-          {
-            model: User,
-            as: 'Users',
-            attributes: { exclude: ['password'] },
-            ...setUserQuery,
-          },
-        ],
+      // operating 조건(null & true 인 것만 조회)
+      WorkHistory.findAll({
+        where: {
+          [Op.or]: [
+            { operating: true },
+            { operating: null },
+          ],
+        },
       }).then((selectedList) => {
+        logger.debug('DaoselectedList', selectedList);
         resolve(selectedList);
       }).catch((err) => {
         reject(err);

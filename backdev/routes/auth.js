@@ -1,9 +1,8 @@
 const express = require('express');
 const passport = require('passport');
-const jwt = require('jsonwebtoken');
+
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-// const User = require('../models/user');
-const userService = require('../service/userService');
+
 const tokenUtil = require('../lib/tokenUtil');
 const logger = require('../lib/logger');
 

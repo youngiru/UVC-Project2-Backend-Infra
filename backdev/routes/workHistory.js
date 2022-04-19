@@ -2,18 +2,13 @@ const express = require('express');
 
 const router = express.Router();
 const logger = require('../lib/logger');
+
 const workHistoryService = require('../service/workHistoryService');
 
 // 완료이력 리스트 조회
 router.get('/', async (req, res) => {
   try {
-    const params = {
-      deviceId: req.query.deviceId,
-      userId: req.query.userId,
-    };
-    logger.info(`(workHistory.list.params) ${JSON.stringify(params)}`);
-
-    const result = await workHistoryService.list(params);
+    const result = await workHistoryService.list();
     logger.info(`(workHistoryService.list.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
