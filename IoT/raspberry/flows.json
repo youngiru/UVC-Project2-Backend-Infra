@@ -1,0 +1,1022 @@
+[
+    {
+        "id": "4f13d9d89df84a71",
+        "type": "tab",
+        "label": "Project",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "75f6b4bc14c55b87",
+        "type": "mqtt in",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "topic": "sensor/sensor",
+        "qos": "1",
+        "datatype": "auto",
+        "broker": "b501bf98aec0bdf6",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "5eb8dae0319cc6a3"
+            ]
+        ]
+    },
+    {
+        "id": "b8419fda23ec905a",
+        "type": "ui_gauge",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "group": "36158f8685a99d2a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": "-10",
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1050,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "b4c68c04075efa2c",
+        "type": "ui_gauge",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "group": "528c6375054935be",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "%",
+        "format": "{{value}}",
+        "min": "10",
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#cbe600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 1040,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "1f7b4e6b4a54b3c4",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "Sensor",
+        "info": "",
+        "x": 70,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "22a38f84a20bb690",
+        "type": "ui_template",
+        "z": "4f13d9d89df84a71",
+        "group": "528c6375054935be",
+        "name": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1040,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2496097180054fb5",
+        "type": "rpi-dht22",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "topic": "rpi-dht11",
+        "dht": "11",
+        "pintype": "0",
+        "pin": "4",
+        "x": 300,
+        "y": 360,
+        "wires": [
+            [
+                "06c190469bec4320"
+            ]
+        ]
+    },
+    {
+        "id": "c0316313de982ab1",
+        "type": "inject",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 360,
+        "wires": [
+            [
+                "2496097180054fb5"
+            ]
+        ]
+    },
+    {
+        "id": "2d9302bd707365f9",
+        "type": "debug",
+        "z": "4f13d9d89df84a71",
+        "name": "tem",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.temperature",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "2c45e53b089cd64f",
+        "type": "debug",
+        "z": "4f13d9d89df84a71",
+        "name": "humidity",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.humidity",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1d1f1ea17f9edd23",
+        "type": "debug",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5eb8dae0319cc6a3",
+        "type": "json",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 510,
+        "y": 220,
+        "wires": [
+            [
+                "1d1f1ea17f9edd23",
+                "2d9302bd707365f9",
+                "2c45e53b089cd64f",
+                "6d96f4ff58af5f2d",
+                "9f7b6165aa342514",
+                "67ff404f21c269e7",
+                "d5bef458d038498d",
+                "e51e6f3be8c2efe7",
+                "626f993bfeea8b41",
+                "084a6bd5789366d1"
+            ]
+        ]
+    },
+    {
+        "id": "6d96f4ff58af5f2d",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "tem",
+        "func": "msg.payload = msg.payload.temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 440,
+        "wires": [
+            [
+                "b8419fda23ec905a"
+            ]
+        ]
+    },
+    {
+        "id": "9f7b6165aa342514",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "humidity",
+        "func": "msg.payload = msg.payload.humidity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 520,
+        "wires": [
+            [
+                "b4c68c04075efa2c"
+            ]
+        ]
+    },
+    {
+        "id": "626f993bfeea8b41",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "template",
+        "func": "msg.payload = \"온도:\"+msg.payload.temperature;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 580,
+        "wires": [
+            [
+                "22a38f84a20bb690"
+            ]
+        ]
+    },
+    {
+        "id": "6fa115ea82cbc2bb",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "Mqtt",
+        "info": "",
+        "x": 110,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "3270252632eb073c",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "Pulse signal",
+        "info": "",
+        "x": 90,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "a52202bb8f58db08",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "DHT11 Sensor module",
+        "info": "",
+        "x": 300,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "402cbb01bd4eacdc",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "json형식으로 변환",
+        "info": "",
+        "x": 510,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c906cb9699c0bb3a",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "Output",
+        "info": "",
+        "x": 930,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7326d05a87e6c07d",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "Function",
+        "info": "",
+        "x": 820,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "b0034df91a0e78fd",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "Dash-board",
+        "info": "",
+        "x": 1050,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "67ff404f21c269e7",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "data",
+        "func": "var temperature = msg.payload.temperature;\nvar humidity = msg.payload.humidity;\nvar distance = msg.payload.distance;\nvar stamp = new Date().getTime().toLocaleString('en-Us', { timeZone: 'Asia/Seoul' });\nmsg.topic = \"INSERT INTO raspberrypi.sensor VALUES(\"+temperature+\", \"+humidity+\", \"+distance+\", '\"+stamp+\"')\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 840,
+        "wires": [
+            [
+                "b626c738e86dc323"
+            ]
+        ]
+    },
+    {
+        "id": "06c190469bec4320",
+        "type": "debug",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d5bef458d038498d",
+        "type": "debug",
+        "z": "4f13d9d89df84a71",
+        "name": "distance",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.distance",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "e51e6f3be8c2efe7",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "distance",
+        "func": "msg.payload = msg.payload.distance;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 700,
+        "wires": [
+            [
+                "0fd0b9fd73983170"
+            ]
+        ]
+    },
+    {
+        "id": "0fd0b9fd73983170",
+        "type": "ui_chart",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "group": "795a98765dc23f7b",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Distance",
+        "chartType": "bar",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "60",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1040,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9750f66e0a94657c",
+        "type": "comment",
+        "z": "4f13d9d89df84a71",
+        "name": "Database",
+        "info": "",
+        "x": 1040,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "fd3df43feba2337b",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "temperaure function",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n//data[0].temperature\n//data[1].humidity\n//data[2].distancd\n//data[3].stamp\n\nfor(var i=0; i< data.length; i++) {\n    y.push(data[i].temperature);\n    x.push(data[i].stamp)\n}\n\nmsg.payload = [{\n    series:\"\",\n    data:[y],\n    labels:x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 980,
+        "wires": [
+            [
+                "475cb82fe7c3390f"
+            ]
+        ]
+    },
+    {
+        "id": "475cb82fe7c3390f",
+        "type": "ui_chart",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "group": "816fe74729777271",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1050,
+        "y": 980,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "44e806596fb54cef",
+        "type": "ui_template",
+        "z": "4f13d9d89df84a71",
+        "group": "36158f8685a99d2a",
+        "name": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1040,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "084a6bd5789366d1",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "template",
+        "func": "msg.payload = \"습도:\"+msg.payload.humidity;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 640,
+        "wires": [
+            [
+                "44e806596fb54cef"
+            ]
+        ]
+    },
+    {
+        "id": "87d36b0c445f642c",
+        "type": "ui_template",
+        "z": "4f13d9d89df84a71",
+        "group": "795a98765dc23f7b",
+        "name": "",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "format": "<div ng-bind-html=\"msg.payload\"></div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1040,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f99bb22f2c2132a0",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "template",
+        "func": "msg.payload = \"거리:\"+msg.payload.distance;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 740,
+        "wires": [
+            [
+                "87d36b0c445f642c"
+            ]
+        ]
+    },
+    {
+        "id": "592c7f6d485e8282",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "humidity function",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n//data[0].temperature\n//data[1].humidity\n//data[2].distancd\n//data[3].stamp\n\nfor(var i=0; i< data.length; i++) {\n    y.push(data[i].humidity);\n    x.push(data[i].stamp)\n}\n\nmsg.payload = [{\n    series:\"\",\n    data:[y],\n    labels:x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 1040,
+        "wires": [
+            [
+                "1d73db58fd314b2a"
+            ]
+        ]
+    },
+    {
+        "id": "43d46bf4d85b1925",
+        "type": "mysql",
+        "z": "4f13d9d89df84a71",
+        "mydb": "8c4dcb7d08566377",
+        "name": "",
+        "x": 530,
+        "y": 1040,
+        "wires": [
+            [
+                "592c7f6d485e8282"
+            ]
+        ]
+    },
+    {
+        "id": "1d73db58fd314b2a",
+        "type": "ui_chart",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "group": "a69fbca613bcf7fc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1050,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e87a83e622c50142",
+        "type": "function",
+        "z": "4f13d9d89df84a71",
+        "name": "humidity function",
+        "func": "var x = [];\nvar y = [];\n\nvar data = msg.payload;\n\n//data[0].temperature\n//data[1].humidity\n//data[2].distancd\n//data[3].stamp\n\nfor(var i=0; i< data.length; i++) {\n    y.push(data[i].distance);\n    x.push(data[i].stamp)\n}\n\nmsg.payload = [{\n    series:\"\",\n    data:[y],\n    labels:x\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 1100,
+        "wires": [
+            [
+                "f5d6a43954d5ae1b"
+            ]
+        ]
+    },
+    {
+        "id": "80b1f7c427856f28",
+        "type": "mysql",
+        "z": "4f13d9d89df84a71",
+        "mydb": "8c4dcb7d08566377",
+        "name": "",
+        "x": 530,
+        "y": 1100,
+        "wires": [
+            [
+                "e87a83e622c50142"
+            ]
+        ]
+    },
+    {
+        "id": "f5d6a43954d5ae1b",
+        "type": "ui_chart",
+        "z": "4f13d9d89df84a71",
+        "name": "",
+        "group": "bb57d80860392bd3",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1050,
+        "y": 1100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9c2e9063142a62a",
+        "type": "inject",
+        "z": "4f13d9d89df84a71",
+        "name": "온도센서",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from sensor where temperature order by timestamp desc limit 20",
+        "payload": "",
+        "payloadType": "str",
+        "x": 350,
+        "y": 980,
+        "wires": [
+            [
+                "2ee5efb928e99ca2"
+            ]
+        ]
+    },
+    {
+        "id": "f4d9ef6190780772",
+        "type": "inject",
+        "z": "4f13d9d89df84a71",
+        "name": "습도센서",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from sensor where humidity order by timestamp desc limit 20",
+        "payload": "",
+        "payloadType": "str",
+        "x": 350,
+        "y": 1040,
+        "wires": [
+            [
+                "43d46bf4d85b1925"
+            ]
+        ]
+    },
+    {
+        "id": "b5671be63310a2fa",
+        "type": "inject",
+        "z": "4f13d9d89df84a71",
+        "name": "거리센서",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "2",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "select * from sensor where humidity order by timestamp desc limit 20",
+        "payload": "",
+        "payloadType": "str",
+        "x": 350,
+        "y": 1100,
+        "wires": [
+            [
+                "80b1f7c427856f28"
+            ]
+        ]
+    },
+    {
+        "id": "2ee5efb928e99ca2",
+        "type": "mysql",
+        "z": "4f13d9d89df84a71",
+        "mydb": "8c4dcb7d08566377",
+        "name": "",
+        "x": 530,
+        "y": 980,
+        "wires": [
+            [
+                "fd3df43feba2337b"
+            ]
+        ]
+    },
+    {
+        "id": "b626c738e86dc323",
+        "type": "mysql",
+        "z": "4f13d9d89df84a71",
+        "mydb": "8c4dcb7d08566377",
+        "name": "",
+        "x": 1050,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1917c852ef28a477",
+        "type": "ui_spacer",
+        "z": "4f13d9d89df84a71",
+        "name": "spacer",
+        "group": "",
+        "order": 1,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "b501bf98aec0bdf6",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "36158f8685a99d2a",
+        "type": "ui_group",
+        "name": "DHT11",
+        "tab": "8856cec2bb657728",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "528c6375054935be",
+        "type": "ui_group",
+        "name": "DHT11",
+        "tab": "8856cec2bb657728",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "795a98765dc23f7b",
+        "type": "ui_group",
+        "name": "HC-SR04",
+        "tab": "8856cec2bb657728",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "816fe74729777271",
+        "type": "ui_group",
+        "name": "온도 센서 그래프 출력",
+        "tab": "8856cec2bb657728",
+        "order": 4,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8c4dcb7d08566377",
+        "type": "MySQLdatabase",
+        "name": "romote",
+        "host": "192.168.43.214",
+        "port": "3306",
+        "db": "raspberrypi",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "a69fbca613bcf7fc",
+        "type": "ui_group",
+        "name": "습도 센서 그래프 출력",
+        "tab": "8856cec2bb657728",
+        "order": 5,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "bb57d80860392bd3",
+        "type": "ui_group",
+        "name": "거리 센서 그래프 출력",
+        "tab": "8856cec2bb657728",
+        "order": 6,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "8856cec2bb657728",
+        "type": "ui_tab",
+        "name": "Sensor",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
