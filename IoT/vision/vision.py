@@ -87,5 +87,5 @@ while True:
                 cv2.imwrite("After.png", im_with_keypoints)
                 # cv2.imshow("Dice Reader", im_with_keypoints) #break선언시 실행 불가
         # break
-            sleep(1.0)
+            sleep(2.0)
 cv2.destroyAllWindows()
