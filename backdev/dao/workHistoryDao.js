@@ -14,18 +14,9 @@ const dao = {
     });
   },
   // 작업 현황 리스트 조회
-  selectList(params) {
+  selectList() {
     // where 검색 조건
     const setQuery = {};
-
-    // // userId 검색
-    // const setUserQuery = {};
-    // if (params.userId) {
-    //   setUserQuery.where = {
-    //     ...setUserQuery.where,
-    //     id: params.userId,
-    //   };
-    // }
 
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
@@ -41,7 +32,7 @@ const dao = {
           ],
         },
       }).then((selectedList) => {
-        logger.debug('DaoselectedList', selectedList);
+        logger.debug('workHistoryDao.selectedList', selectedList);
         resolve(selectedList);
       }).catch((err) => {
         reject(err);

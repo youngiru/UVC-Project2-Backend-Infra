@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../lib/logger');
 const workHistoryService = require('../service/workHistoryService');
+const emergencyService = require('../service/emergencyService');
 
 // 등록
 router.post('/', async (req, res) => {
@@ -39,7 +40,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// 작업이력 리스트 조회
+// 작업현황 리스트 조회
 router.get('/', async (req, res) => {
   try {
     const result = await workHistoryService.list();
@@ -73,17 +74,17 @@ router.put('/ready/:id', async (req, res) => {
 
 // 가동 상태 변동(시작, 정지)
 // eslint-disable-next-line consistent-return
-router.put('/operating/:id', async (req, res) => {
+router.put('/start/:id', async (req, res) => {
   try {
     const params = {
       id: req.params.id,
       operating: req.body.operating,
     };
-    logger.info(`(workHistory.put.operating.params) ${JSON.stringify(params)}`);
+    logger.info(`(workHistory.start.params) ${JSON.stringify(params)}`);
 
     // 준비상태 체크
     const data = await workHistoryService.info(params);
-    logger.info(`(workHistory.put.operating.ready) ${JSON.stringify(data)}`);
+    logger.info(`(workHistory.start.ready) ${JSON.stringify(data)}`);
     // 준비가 안 됐을 경우
     if (data.ready !== true) {
       const err = new Error('준비상태를 확인하세요');
@@ -94,7 +95,7 @@ router.put('/operating/:id', async (req, res) => {
 
     // 비즈니스 로직 호출
     const operatingStatus = await workHistoryService.check(params);
-    logger.debug(`(workHistory.put.operating.operatingStatus) ${operatingStatus}`);
+    logger.debug(`(workHistory.start.operatingStatus) ${operatingStatus}`);
 
     // 원래 가동상태, 원하는 가동상태 비교
     if (operatingStatus === params.operating) {
@@ -104,7 +105,7 @@ router.put('/operating/:id', async (req, res) => {
     }
     if (operatingStatus !== params.operating) {
       const result = await workHistoryService.edit(params);
-      logger.debug(`(operatingStatus.result) ${result}`);
+      logger.debug(`(workStatus.operatingStatus.result) ${result}`);
       // 최종 응답
       res.status(200).json(result);
     }
@@ -187,6 +188,44 @@ router.put('/done/:id', async (req, res) => {
 
     const result = await workHistoryService.edit(params);
     logger.debug(`(workStatus.done.result) ${result}`);
+    // 최종 응답
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 비상정지 버튼
+router.post('/emergency', async (req, res) => {
+  try {
+    const params = {
+      userId: req.body.userId,
+      workHistoryId: req.body.workHistoryId,
+      description: req.body.description,
+    };
+    logger.info(`(workStatus.emergency.params) ${JSON.stringify(params)}`);
+
+    const result = await emergencyService.reg(params);
+    logger.debug(`(workStatus.emergency.post.result) ${result}`);
+    // 최종 응답
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 비상정지 이력 조회
+router.get('/emergency', async (req, res) => {
+  try {
+    const params = {
+      userId: req.body.userId,
+      workHistoryId: req.body.workHistoryId,
+      description: req.body.description,
+    };
+    logger.info(`(workStatus.emergency.get.params) ${params}`);
+
+    const result = await emergencyService.list(params);
+    logger.debug(`(workStatus.emergency.get.result) ${result}`);
     // 최종 응답
     res.status(200).json(result);
   } catch (err) {

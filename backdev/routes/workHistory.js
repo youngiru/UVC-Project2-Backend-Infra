@@ -5,7 +5,7 @@ const logger = require('../lib/logger');
 
 const workHistoryService = require('../service/workHistoryService');
 
-// 완료이력 리스트 조회
+// 작업이력 리스트 조회
 router.get('/', async (req, res) => {
   try {
     const result = await workHistoryService.list();
@@ -40,7 +40,7 @@ router.put('/reset/:id', async (req, res) => {
     // 가동상태 확인
     if (data.operating === true) {
       return res.status(401).json({
-        msg: '가동중지버튼을 먼저 눌러주세요',
+        msg: '중지버튼을 먼저 눌러주세요',
       });
     }
     // const stock = params.inputQuantity - params.outputQuantity;

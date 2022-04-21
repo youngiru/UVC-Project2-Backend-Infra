@@ -1,5 +1,7 @@
 const { Op } = require('sequelize');
-const { Emergency } = require('../models/emergency');
+const User = require('../models/user');
+const WorkHistory = require('../models/workHistory');
+const Emergency = require('../models/emergency');
 
 const dao = {
   // 등록
@@ -14,22 +16,24 @@ const dao = {
   },
   // 리스트 조회
   selectList(params) {
-    // where 검색 조건
     const setQuery = {};
-    if (params.deviceId) {
-      setQuery.where = {
-        ...setQuery.where,
-        name: { [Op.like]: `%${params.deviceId}%` }, // like검색
-      };
-    }
-
     // order by 정렬 조건
     setQuery.order = [['id', 'DESC']];
 
     return new Promise((resolve, reject) => {
-      Emergency.findAndCountAll({
+      Emergency.findAll({
         ...setQuery,
-        attributes: { exclude: ['password'] }, // password 필드 제외
+        include: [
+          {
+            model: User,
+            attributes: { exclude: ['password'] },
+            where: { id: params.userId },
+          },
+          {
+            model: WorkHistory,
+            attributes: [],
+            where: { id: params.workHistoryId },
+          }],
       }).then((selectedList) => {
         resolve(selectedList);
       }).catch((err) => {
