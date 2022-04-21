@@ -1,0 +1,11 @@
+{
+  "EdukitId": "UVC-EDU-01",
+  "EdukitIP": "192.168.0.120",
+  "EdukitPort": "2004",
+  "MqttBrokerIP": "220.90.129.60", // wi-fi ip
+  "MqttBrokerPort": "1883",
+  "WebSocketServerUrl": "http://localhost:8088",
+  "DelayTime": "200",
+  "DebugType": "Debug",
+  "FromOutside": "UVC-EDU-02"
+}

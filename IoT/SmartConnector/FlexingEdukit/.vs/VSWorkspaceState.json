@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\SmartConnector",
+    "\\SmartConnector\\bin",
+    "\\SmartConnector\\bin\\Debug",
+    "\\SmartConnector\\bin\\Release",
+    "\\SmartConnector\\obj",
+    "\\SmartConnector\\obj\\Debug",
+    "\\SmartConnector\\obj\\Release"
+  ],
+  "SelectedNode": "\\SmartConnector\\bin\\Debug\\netcoreapp3.1",
+  "PreviewInSolutionExplorer": false
+}
