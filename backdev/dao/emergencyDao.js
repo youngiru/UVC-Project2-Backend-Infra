@@ -27,12 +27,12 @@ const dao = {
           {
             model: User,
             attributes: { exclude: ['password'] },
-            where: { id: params.userId },
+            // where: { id: params.userId },
           },
           {
             model: WorkHistory,
             attributes: [],
-            where: { id: params.workHistoryId },
+            // where: { id: params.workHistoryId },
           }],
       }).then((selectedList) => {
         resolve(selectedList);

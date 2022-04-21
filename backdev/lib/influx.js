@@ -20,7 +20,7 @@ const dao = {
   create() {
     return new Promise((resolve, reject) => {
       influx.query(
-        'CREATE RETENTION POLICY "one_day_onl" ON "boyeo" DURATION 1d REPLICATION 1',
+        'CREATE RETENTION POLICY "one_day_only" ON "boyeo" DURATION 1d REPLICATION 1',
       ).then((results) => {
         resolve(results);
       }).catch((err) => {
