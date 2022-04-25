@@ -8,8 +8,8 @@ const workHistoryService = require('../service/workHistoryService');
 // 작업이력 리스트 조회
 router.get('/', async (req, res) => {
   try {
-    const result = await workHistoryService.list();
-    logger.info(`(workHistoryService.list.result) ${JSON.stringify(result)}`);
+    const result = await workHistoryService.historyList();
+    logger.info(`(workHistoryService.historyList.result) ${JSON.stringify(result)}`);
 
     // 최종 응답
     res.status(200).json(result);
