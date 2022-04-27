@@ -55,6 +55,20 @@ class MqttHandler {
       logger.debug('mqtt client disconnected');
     });
   }
+
+  reset(message) { // 리셋 버튼 클릭시
+    this.mqttClient = mqtt.connect(this.host, { port: 1883 });
+    this.mqttClient.on('connect', () => {
+      if (message === true) {
+        const payload = { tagId: '8', value: '1' };
+        this.mqttClient.publish('UVC-EDU-02', JSON.stringify(payload));
+        logger.debug(`(MQTT.mqttHandler.reset) ${JSON.stringify(payload)}`);
+      }
+    });
+    this.mqttClient.on('close', () => {
+      logger.debug('mqtt client disconnected');
+    });
+  }
 }
 
 module.exports = MqttHandler;
