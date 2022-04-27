@@ -3,6 +3,9 @@ const Sequelize = require('sequelize');
 module.exports = class WorkHistory extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
+      userName: {
+        type: Sequelize.STRING, // 담당자
+      },
       inputQuantity: {
         type: Sequelize.INTEGER, // 투입량
       },
