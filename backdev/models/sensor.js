@@ -27,6 +27,6 @@ module.exports = class Sensor extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Sensor.hasMany(db.WorkHistory, { foreignKey: 'sensorId', sourceKey: 'id' });
+    db.Sensor.hasMany(db.WorkHistory);
   }
 };

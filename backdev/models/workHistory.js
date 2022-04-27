@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-const { User } = require('.');
 
 module.exports = class WorkHistory extends Sequelize.Model {
   static init(sequelize) {
@@ -15,15 +14,6 @@ module.exports = class WorkHistory extends Sequelize.Model {
       },
       qualityQuantity: {
         type: Sequelize.INTEGER, // 양품
-      },
-      defectiveQuantity: {
-        type: Sequelize.INTEGER, // 불량품
-      },
-      defectiveRate: {
-        type: Sequelize.FLOAT, // 불량률
-      },
-      stock: {
-        type: Sequelize.INTEGER, // 재고수량
       },
       uptime: {
         type: Sequelize.DATE, // 시작시각
@@ -55,6 +45,6 @@ module.exports = class WorkHistory extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.WorkHistory.hasOne(db.User, { foreignKey: 'userId', sourceKey: 'id' });
+    db.WorkHistory.belongsTo(db.User, { foreignKey: 'userId', targetKey: 'id' });
   }
 };

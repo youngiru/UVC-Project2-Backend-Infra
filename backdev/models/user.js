@@ -35,7 +35,6 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.User.hasMany(db.Emergency, { foreignKey: 'userId', sourceKey: 'id' });
-    db.User.belongsTo(db.WorkHistory, { foreignKey: { name: 'userId', as: 'User' }, targetKey: 'id' });
+    db.User.hasMany(db.WorkHistory, { foreignKey: 'workHistoryId', sourceId: 'id' });
   }
 };
