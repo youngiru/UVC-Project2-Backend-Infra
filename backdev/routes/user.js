@@ -83,7 +83,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// 수정
+// 사용자 관리 수정
 router.put('/:id', async (req, res) => {
   try {
     const params = {
@@ -100,6 +100,26 @@ router.put('/:id', async (req, res) => {
     const result = await userService.edit(params);
     logger.info(`(user.update.result) ${JSON.stringify(result)}`);
 
+    // 최종 응답
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.status(500).json({ err: err.toString() });
+  }
+});
+
+// 마이페이지 정보 수정
+router.put('/mypage/:id', async (req, res) => {
+  try {
+    const params = {
+      id: req.params.id,
+      userid: req.body.userid,
+      password: req.body.password,
+    };
+    logger.info(`(user.mypage.params) ${JSON.stringify(params)}`);
+
+    // 비즈니스 로직 호출
+    const result = await userService.register(params);
+    logger.info(`(user.mypage.result) ${JSON.stringify(result)}`);
     // 최종 응답
     return res.status(200).json(result);
   } catch (err) {
