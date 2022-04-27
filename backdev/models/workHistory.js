@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { User } = require('.');
 
 module.exports = class WorkHistory extends Sequelize.Model {
   static init(sequelize) {
@@ -54,8 +55,6 @@ module.exports = class WorkHistory extends Sequelize.Model {
   }
 
   static associate(db) {
-    // eslint-disable-next-line max-len
-    // db.WorkHistory.belongsToMany(db.WorkManagement, { through: 'work' }, { onDelete: 'CASCADE' });
-    db.WorkHistory.belongsToMany(db.User, { through: 'workingUser' }, { onDelete: 'CASCADE' });
+    db.WorkHistory.hasOne(db.User, { foreignKey: 'userId', sourceKey: 'id' });
   }
 };
