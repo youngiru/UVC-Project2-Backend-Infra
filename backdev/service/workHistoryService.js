@@ -149,7 +149,13 @@ const service = {
       result = await workHistoryDao.update(params);
       logger.debug(`(workManagementService.edit) ${JSON.stringify(result)}`);
       const message = params.operating;
-      mqttClient.start(message);
+      // mqttClient.start(message);
+      if (message === true) {
+        mqttClient.start(message);
+      }
+      if (message === false) {
+        mqttClient.stop(message);
+      }
     } catch (err) {
       logger.error(`(workManagementService.edit) ${err.toString()}`);
       return new Promise((resolve, reject) => {
