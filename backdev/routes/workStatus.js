@@ -189,9 +189,11 @@ router.put('/done/:id', async (req, res) => {
     logger.info(`(workStatus.done.params) ${JSON.stringify(params)}`);
 
     const result = await workHistoryService.edit(params);
-    logger.debug(`(workStatus.done.result) ${result}`);
+    const insert = await workHistoryService.historyList(result);
+    logger.info(`(workStatus.put.done.result) ${JSON.stringify(result)}`);
+    logger.info(`(workStatus.put.done.insert) ${JSON.stringify(insert)}`);
     // 최종 응답
-    res.status(200).json(result);
+    res.status(200).json(insert);
   } catch (err) {
     res.status(500).json({ err: err.toString() });
   }

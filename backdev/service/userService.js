@@ -42,6 +42,43 @@ const service = {
     });
   },
 
+  // mypage 수정
+  async mypage(params) {
+    let inserted = null;
+    logger.info('makePassword.params', params);
+    // 1. 비밀번호 암호화
+    let hashPassword = null;
+    try {
+      hashPassword = await bcrypt.hash(params.password, 12);
+    } catch (err) {
+      return new Promise((resolve, reject) => {
+        logger.error(`(userService.makePassword) ${err.toString()}`);
+        reject(err);
+      });
+    }
+
+    // 2. 사용자 등록 처리
+    const newParams = {
+      ...params,
+      password: hashPassword,
+    };
+
+    try {
+      inserted = await userDao.update(newParams);
+      logger.debug(`(userService.mypage) ${JSON.stringify(inserted)}`);
+    } catch (err) {
+      logger.error(`(userService.mypage) ${err.toString()}`);
+      return new Promise((resolve, reject) => {
+        reject(err);
+      });
+    }
+
+    // 결과값 리턴
+    return new Promise((resolve) => {
+      resolve(inserted);
+    });
+  },
+
   // selectList
   async list(params) {
     let result = null;

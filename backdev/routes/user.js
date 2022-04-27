@@ -118,7 +118,7 @@ router.put('/mypage/:id', async (req, res) => {
     logger.info(`(user.mypage.params) ${JSON.stringify(params)}`);
 
     // 비즈니스 로직 호출
-    const result = await userService.register(params);
+    const result = await userService.mypage(params);
     logger.info(`(user.mypage.result) ${JSON.stringify(result)}`);
     // 최종 응답
     return res.status(200).json(result);
