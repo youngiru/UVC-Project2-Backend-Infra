@@ -1,6 +1,7 @@
 const logger = require('../lib/logger');
 const influxDao = require('../dao/influxDao');
 const workHistoryDao = require('../dao/workHistoryDao');
+const MqttHandler = require('../lib/mqttHandler');
 
 const service = {
   // 준비 상태 변동
@@ -142,10 +143,13 @@ const service = {
   // update
   async edit(params) {
     let result = null;
+    const mqttClient = new MqttHandler();
 
     try {
       result = await workHistoryDao.update(params);
       logger.debug(`(workManagementService.edit) ${JSON.stringify(result)}`);
+      const message = params.operating;
+      mqttClient.start(message);
     } catch (err) {
       logger.error(`(workManagementService.edit) ${err.toString()}`);
       return new Promise((resolve, reject) => {
