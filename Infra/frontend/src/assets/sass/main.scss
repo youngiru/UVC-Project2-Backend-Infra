@@ -1,0 +1,413 @@
+@import "_var";
+
+// font
+
+// 열린고딕 light
+@font-face {
+  font-family: 'YeolrinGothic-Light';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+// 열린고딕 medium
+@font-face {
+  font-family: 'YeolrinGothic-Medium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Medium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+// 열린고딕 bold
+@font-face {
+  font-family: 'YeolrinGothic-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+// font
+
+// 기본설정
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'YeolrinGothic-Medium';
+}
+ul, ol, dl{
+  list-style: none;
+}
+a{
+  text-decoration: none;
+  color: #000;
+}
+html{
+  font-size: 16px;
+}
+.color_000{
+  color: #000;
+  font-family: 'YeolrinGothic-Light';
+  font-size: 0.8rem;
+  &:hover{
+    color: #000;
+  }
+}
+// 기본설정
+
+// leaderheader.vue
+#leader_header_wrap{
+  background-color: #474747;
+  .leader_header_con{
+    width: $wi;
+    margin: $mr;
+    h2{
+      font-size: 2rem;
+      font-family: 'YeolrinGothic-Bold';
+      line-height: 1.8;
+      margin-top: 10px;
+      color: #dbdbdb;
+      cursor: pointer;
+    }
+    .leader_main_box_co{
+      margin-top: 35px;
+      .leader_header_nav{
+        font-size: 1.3rem;
+        padding: 0;
+        line-height: 2;
+        color: #dbdbdb;
+        cursor: pointer;
+      }
+    }
+  }
+}
+// leaderheader.vue
+
+// Login.vue
+#Login_wrap{
+  width: $wi;
+  margin: $mr;
+  h3{
+    font-size: 3rem;
+    text-align: center;
+    margin-top: 150px;
+    letter-spacing: 10px;
+    font-family: 'YeolrinGothic-Bold';
+  }
+  .Login_inform{
+    width: 500px;
+    text-align: center;
+    margin: 100px auto 0;
+    background-color: #ccc;
+    height: 400px;
+    padding-top: 70px;
+    box-sizing: border-box;
+    .Login_informbox{
+      width: 80%;
+      margin: 0 auto;
+    }
+    #Login_idbox,
+    #Login_pwbox{
+      margin-bottom: 30px;
+    }
+    .Login_btn{
+      display: block;
+      margin: 20px auto 0;
+      width: 100%;
+      background-color: $ee;
+      border: 0;
+      font-size: 1.3rem;
+    }
+  }
+}
+// Login.vue
+
+// leader/main.vue
+#leader_main_wrap{
+  .leader_main_header{
+    background-color: #474747;
+    h2{
+      width: $wi;
+      margin: $mr;
+      font-size: 2.5rem;
+      font-family: 'YeolrinGothic-Bold';
+      line-height: 1.8;
+      color: #dbdbdb;
+      cursor: pointer;
+    }
+  }
+  .leader_main_box{
+    width: $wi;
+    margin: $mr;
+    .leader_main_box_co{
+      margin-top: 25%;
+      .leader_main_text{
+        cursor: pointer;
+        font-size: 1.8rem;
+        font-family: 'YeolrinGothic-Bold';
+        text-align: center;
+        height: 270px;
+        line-height: 280px;
+        background-color: #ccc;
+        margin-right: 15px;
+        &:last-child{
+          margin-right: 0;
+        }
+    }
+    }
+  }
+}
+// leader/main.vue
+
+// leader/user.vue
+#leader_user_wrap{
+  h3{
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 50px;
+  }
+}
+.leader_user_tablebox{
+  width: $wi;
+  margin: 70px auto 0;
+  table{
+    text-align: center;
+    thead{
+      th{
+        width: 10%;width: calc(100% / 5) !important;
+        color: #363636 !important;
+        background-color: #fff !important;
+        font-size: 1.1rem;
+        text-align: center;
+      }
+    }
+    tbody{
+      td{
+        text-align: center;
+        &:last-child{
+          width: 20%;
+        }
+      }
+    }
+  }
+}
+// leader/user.vue
+
+// leader/device.vue
+#leader_device_wrap{
+  h3{
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 50px;
+  }
+}
+.leader_device_tablebox{
+  width: $wi;
+  margin: 70px auto 0;
+  table{
+    thead{
+      th{
+        width: calc(100% / 5) !important;
+        color: #363636 !important;
+        background-color: #fff !important;
+        font-size: 1.1rem;
+        text-align: center;
+      }
+    }
+    tbody{
+      td{
+        text-align: center;
+        &:last-child{
+          width: 20%;
+        }
+      }
+    }
+  }
+}
+// leader/device.vue
+
+// control/main.vue
+#control_main_wrap{
+  .control_main_header{
+    background-color: #ccc;
+    h2{
+      width: $wi;
+      margin: $mr;
+      font-size: 2.5rem;
+      font-family: 'YeolrinGothic-Bold';
+      line-height: 1.8;
+    }
+  }
+  .control_main_box{
+    width: $wi;
+    margin: $mr;
+    .control_main_box_co{
+      margin-top: 25%;
+      .control_main_text{
+        cursor: pointer;
+        font-size: 1.8rem;
+        font-family: 'YeolrinGothic-Bold';
+        text-align: center;
+        height: 216px;
+        line-height: 216px;
+        background-color: #ccc;
+        margin-right: 15px;
+        &:last-child{
+          margin-right: 0;
+        }
+    }
+    }
+  }
+}
+// control/main.vue
+
+// control/controlheader.vue
+.controlheader_nav{
+  flex-direction: row;
+  justify-content: flex-end;
+  > li{
+    > a{
+      display: inline-block;
+      color: #000;
+      font-size: 1.2rem;
+    }
+  }
+}
+// control/controlheader.vue
+
+// factorycontrol.vue
+.factory_table{
+  width: 900px !important;
+  margin: 100px auto 0;
+  text-align: center;
+  thead{
+    th{
+      width: 45%;
+      color: #363636 !important;
+      background-color: #fff !important;
+      font-size: 1.1rem;
+      text-align: center;
+      &:first-child{
+        width: 15%;
+      }
+    }
+  }
+  tbody{
+    td{
+      text-align: center !important;
+      &:last-child{
+        width: 20%;
+      }
+    }
+  }
+}
+// factorycontrol.vue
+
+// workhistory.vue
+#work_wrap{
+  width: $wi;
+  margin: $mr;
+  margin-top: 100px;
+  a{
+    color: #000;
+  }
+  .workhistroy_title{
+    text-align: center;
+    margin-bottom: 70px;
+  }
+  .workhistory_box{
+    #workhistory_div{
+      margin-top: 100px;
+      text-align: right;
+      button{
+        margin-bottom: 15px;
+      }
+      table{
+        text-align: center;
+        thead{
+          th{
+            width: 10%;
+            font-size: 1.1rem;
+            color: #363636 !important;
+            background-color: #fff !important;
+            text-align: center;
+          }
+        }
+        tbody{
+          td{
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  .completion_box{
+    #completion_div{
+      margin-top: 100px;
+      text-align: right;
+      button{
+        margin-bottom: 15px;
+      }
+      table{
+        text-align: center;
+        thead{
+          th{
+            width: 10%;
+            color: #363636 !important;
+            background-color: #fff !important;
+            font-size: 1.1rem;
+            text-align: center;
+          }
+        }
+        tbody{
+          td{
+            text-align: center;
+          }
+        }
+      }
+      h3{
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 50px 0;
+      }
+    }
+  }
+  .status_box{
+    width: 1200px;
+    margin: 70px auto 0;
+    &::after{@include fl}
+    #chartbox{
+      margin: 100px auto 0;
+      vertical-align: top;
+      float: left;
+      &::after{@include fl}
+      #line-chart{
+        width: 400px !important;
+        height: 400px !important;
+      }
+      .chart1,
+      .chart2{
+        float: left;
+      }
+    }
+    .status_table{
+      width: 250px;
+      margin-left: 150px;
+      text-align: center;
+      display: inline-block;
+      margin-bottom: 0;
+      thead{
+        th{
+          width: 10%;
+          color: #363636 !important;
+          background-color: #fff !important;
+          font-size: 1.1rem;
+          text-align: center;
+        }
+      }
+      tbody{
+        td{
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+// workhistory.vue

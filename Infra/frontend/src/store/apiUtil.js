@@ -24,7 +24,7 @@ api.interceptors.response.use(
     if (token) {
       window.localStorage.setItem('token', token)
     }
-
+    console.log('apiutilresponse', response)
     return response
   },
   async error => {

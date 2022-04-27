@@ -1,23 +1,37 @@
 <template>
-  <div>
-    <div style="margin-top: 80px">
-      <b-row align-h="center">
-        <b-col cols="4">
-          <b-card title="로그인">
-            <b-form-group label-cols="4" label-cols-lg="3" label="아이디" label-for="input-userid">
-              <b-form-input id="input-userid" v-model="userid"></b-form-input>
-            </b-form-group>
-            <b-form-group label-cols="4" label-cols-lg="3" label="패스워드" label-for="input-password">
-              <b-form-input id="input-password" v-model="password" type="password"></b-form-input>
-            </b-form-group>
-            <b-form-group label-cols="4" label-cols-lg="3" label="">
-              <b-button variant="primary" :disabled="loading" @click="onSubmit"
-                ><b-spinner v-if="loading" small></b-spinner> 로그인</b-button
-              >
-            </b-form-group>
-          </b-card>
-        </b-col>
-      </b-row>
+  <div id="Login_wrap">
+    <h3>로그인</h3>
+    <div class="Login_inform">
+      <b-form v-if="show" class="Login_informbox">
+        <b-form-group id="Login_idbox" label-for="Login_id">
+          <b-form-input
+            id="Login_id"
+            v-model="form.userid"
+            type="text"
+            placeholder="아이디를 입력해주세요"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group id="Login_pwbox" label-for="Login_pw">
+          <b-form-input
+            id="Login_pw"
+            v-model="form.password"
+            type="password"
+            aria-describedby="password-help-block"
+            placeholder="비밀번호를 입력해주세요"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <b-button
+          href="#none"
+          type="submit"
+          variant="primary"
+          class="Login_btn"
+          @keyup.enter="onSubmit"
+          @click="onSubmit"
+          >로그인</b-button
+        >
+      </b-form>
     </div>
   </div>
 </template>
@@ -28,8 +42,11 @@ import jwtDecode from 'jwt-decode'
 export default {
   data() {
     return {
-      userid: null,
-      password: null
+      form: {
+        userid: null,
+        password: null
+      },
+      show: true
     }
   },
   computed: {
@@ -40,14 +57,18 @@ export default {
       return this.$store.getters.TokenLoading
     },
     error() {
-      return this.$store.getters.TokenError
+      return this.$store.getters.tokenError
     }
   },
   watch: {
     tokenUser(value) {
-      if (value && value.id && value.id > 0) {
+      console.log('tokenUser', value.role)
+      if (value !== null && value.role === 'leader') {
+        console.log('value', value)
         // 로그인이 완료된 상황
-        this.$router.push('/home') // 메인 페이지 이동
+        this.$router.push('/leader') // 메인페이지 이동
+      } else if (value !== null && value.role === 'member') {
+        this.$router.push('/control')
       }
     },
     error(errValue) {
@@ -71,7 +92,6 @@ export default {
 
       if (expDate && expDate >= today) {
         // 토큰이 유효한 경우
-        this.$router.push('/home') // 메인 페이지 이동
       } else {
         // 토큰이 만료된 경우
         window.localStorage.removeItem('token') // 토큰 삭제
@@ -80,10 +100,10 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch('authLogin', { userid: this.userid, password: this.password })
+      this.$store.dispatch('authLogin', { userid: this.form.userid, password: this.form.password })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style src="@/assets/sass/main.css"></style>

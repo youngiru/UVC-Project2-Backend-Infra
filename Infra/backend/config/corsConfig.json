@@ -1,0 +1,4 @@
+{
+  "origin": ["http://backend:3001/"],
+  "methods": ["OPTIONS", "GET", "POST", "HEAD", "PUT", "DELETE"]
+}

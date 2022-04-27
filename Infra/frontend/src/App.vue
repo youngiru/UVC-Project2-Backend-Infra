@@ -1,18 +1,11 @@
 <template>
-  <div>
-    <app-header v-if="this.$route.meta.header !== false" />
+  <div id="app">
     <router-view />
   </div>
 </template>
 
 <script>
-import Header from './components/layout/Header'
-
-export default {
-  components: {
-    'app-header': Header
-  }
-}
+export default {}
 </script>
 
-<style src="./assets/style/main.css"></style>
+<style src="@/assets/sass/main.css"></style>

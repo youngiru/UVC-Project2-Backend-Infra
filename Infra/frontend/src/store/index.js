@@ -1,17 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Auth from './models/auth'
-import Department from './models/department'
 import User from './models/user'
 import Device from './models/device'
+import WorkHistory from './models/workhistory'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  state: {},
+  mutations: {},
+  actions: {},
   modules: {
     Auth,
-    Department,
     User,
-    Device
+    Device,
+    WorkHistory
   }
 })

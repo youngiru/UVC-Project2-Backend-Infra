@@ -1,0 +1,422 @@
+@font-face {
+  font-family: 'YeolrinGothic-Light';
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Light.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'YeolrinGothic-Medium';
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'YeolrinGothic-Bold';
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/YeolrinGothic-Bold.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'YeolrinGothic-Medium';
+}
+
+ul, ol, dl {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+html {
+  font-size: 16px;
+}
+
+.color_000 {
+  color: #000;
+  font-family: 'YeolrinGothic-Light';
+  font-size: 0.8rem;
+}
+
+.color_000:hover {
+  color: #000;
+}
+
+#leader_header_wrap {
+  background-color: #474747;
+}
+
+#leader_header_wrap .leader_header_con {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+#leader_header_wrap .leader_header_con h2 {
+  font-size: 2rem;
+  font-family: 'YeolrinGothic-Bold';
+  line-height: 1.8;
+  margin-top: 10px;
+  color: #dbdbdb;
+  cursor: pointer;
+}
+
+#leader_header_wrap .leader_header_con .leader_main_box_co {
+  margin-top: 35px;
+}
+
+#leader_header_wrap .leader_header_con .leader_main_box_co .leader_header_nav {
+  font-size: 1.3rem;
+  padding: 0;
+  line-height: 2;
+  color: #dbdbdb;
+  cursor: pointer;
+}
+
+#Login_wrap {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+#Login_wrap h3 {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 150px;
+  letter-spacing: 10px;
+  font-family: 'YeolrinGothic-Bold';
+}
+
+#Login_wrap .Login_inform {
+  width: 500px;
+  text-align: center;
+  margin: 100px auto 0;
+  background-color: #ccc;
+  height: 400px;
+  padding-top: 70px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+#Login_wrap .Login_inform .Login_informbox {
+  width: 80%;
+  margin: 0 auto;
+}
+
+#Login_wrap .Login_inform #Login_idbox,
+#Login_wrap .Login_inform #Login_pwbox {
+  margin-bottom: 30px;
+}
+
+#Login_wrap .Login_inform .Login_btn {
+  display: block;
+  margin: 20px auto 0;
+  width: 100%;
+  background-color: #5e5e5e;
+  border: 0;
+  font-size: 1.3rem;
+}
+
+#leader_main_wrap .leader_main_header {
+  background-color: #474747;
+}
+
+#leader_main_wrap .leader_main_header h2 {
+  width: 1280px;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  font-family: 'YeolrinGothic-Bold';
+  line-height: 1.8;
+  color: #dbdbdb;
+  cursor: pointer;
+}
+
+#leader_main_wrap .leader_main_box {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+#leader_main_wrap .leader_main_box .leader_main_box_co {
+  margin-top: 25%;
+}
+
+#leader_main_wrap .leader_main_box .leader_main_box_co .leader_main_text {
+  cursor: pointer;
+  font-size: 1.8rem;
+  font-family: 'YeolrinGothic-Bold';
+  text-align: center;
+  height: 270px;
+  line-height: 280px;
+  background-color: #ccc;
+  margin-right: 15px;
+}
+
+#leader_main_wrap .leader_main_box .leader_main_box_co .leader_main_text:last-child {
+  margin-right: 0;
+}
+
+#leader_user_wrap h3 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 50px;
+}
+
+.leader_user_tablebox {
+  width: 1280px;
+  margin: 70px auto 0;
+}
+
+.leader_user_tablebox table {
+  text-align: center;
+}
+
+.leader_user_tablebox table thead th {
+  width: 10%;
+  width: calc(100% / 5) !important;
+  color: #363636 !important;
+  background-color: #fff !important;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.leader_user_tablebox table tbody td {
+  text-align: center;
+}
+
+.leader_user_tablebox table tbody td:last-child {
+  width: 20%;
+}
+
+#leader_device_wrap h3 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 50px;
+}
+
+.leader_device_tablebox {
+  width: 1280px;
+  margin: 70px auto 0;
+}
+
+.leader_device_tablebox table thead th {
+  width: calc(100% / 5) !important;
+  color: #363636 !important;
+  background-color: #fff !important;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.leader_device_tablebox table tbody td {
+  text-align: center;
+}
+
+.leader_device_tablebox table tbody td:last-child {
+  width: 20%;
+}
+
+#control_main_wrap .control_main_header {
+  background-color: #ccc;
+}
+
+#control_main_wrap .control_main_header h2 {
+  width: 1280px;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  font-family: 'YeolrinGothic-Bold';
+  line-height: 1.8;
+}
+
+#control_main_wrap .control_main_box {
+  width: 1280px;
+  margin: 0 auto;
+}
+
+#control_main_wrap .control_main_box .control_main_box_co {
+  margin-top: 25%;
+}
+
+#control_main_wrap .control_main_box .control_main_box_co .control_main_text {
+  cursor: pointer;
+  font-size: 1.8rem;
+  font-family: 'YeolrinGothic-Bold';
+  text-align: center;
+  height: 216px;
+  line-height: 216px;
+  background-color: #ccc;
+  margin-right: 15px;
+}
+
+#control_main_wrap .control_main_box .control_main_box_co .control_main_text:last-child {
+  margin-right: 0;
+}
+
+.controlheader_nav {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.controlheader_nav > li > a {
+  display: inline-block;
+  color: #000;
+  font-size: 1.2rem;
+}
+
+.factory_table {
+  width: 900px !important;
+  margin: 100px auto 0;
+  text-align: center;
+}
+
+.factory_table thead th {
+  width: 45%;
+  color: #363636 !important;
+  background-color: #fff !important;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.factory_table thead th:first-child {
+  width: 15%;
+}
+
+.factory_table tbody td {
+  text-align: center !important;
+}
+
+.factory_table tbody td:last-child {
+  width: 20%;
+}
+
+#work_wrap {
+  width: 1280px;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+#work_wrap a {
+  color: #000;
+}
+
+#work_wrap .workhistroy_title {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+#work_wrap .workhistory_box #workhistory_div {
+  margin-top: 100px;
+  text-align: right;
+}
+
+#work_wrap .workhistory_box #workhistory_div button {
+  margin-bottom: 15px;
+}
+
+#work_wrap .workhistory_box #workhistory_div table {
+  text-align: center;
+}
+
+#work_wrap .workhistory_box #workhistory_div table thead th {
+  width: 10%;
+  font-size: 1.1rem;
+  color: #363636 !important;
+  background-color: #fff !important;
+  text-align: center;
+}
+
+#work_wrap .workhistory_box #workhistory_div table tbody td {
+  text-align: center;
+}
+
+#work_wrap .completion_box #completion_div {
+  margin-top: 100px;
+  text-align: right;
+}
+
+#work_wrap .completion_box #completion_div button {
+  margin-bottom: 15px;
+}
+
+#work_wrap .completion_box #completion_div table {
+  text-align: center;
+}
+
+#work_wrap .completion_box #completion_div table thead th {
+  width: 10%;
+  color: #363636 !important;
+  background-color: #fff !important;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+#work_wrap .completion_box #completion_div table tbody td {
+  text-align: center;
+}
+
+#work_wrap .completion_box #completion_div h3 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin: 50px 0;
+}
+
+#work_wrap .status_box {
+  width: 1200px;
+  margin: 70px auto 0;
+}
+
+#work_wrap .status_box::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+#work_wrap .status_box #chartbox {
+  margin: 100px auto 0;
+  vertical-align: top;
+  float: left;
+}
+
+#work_wrap .status_box #chartbox::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+#work_wrap .status_box #chartbox #line-chart {
+  width: 400px !important;
+  height: 400px !important;
+}
+
+#work_wrap .status_box #chartbox .chart1,
+#work_wrap .status_box #chartbox .chart2 {
+  float: left;
+}
+
+#work_wrap .status_box .status_table {
+  width: 250px;
+  margin-left: 150px;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+#work_wrap .status_box .status_table thead th {
+  width: 10%;
+  color: #363636 !important;
+  background-color: #fff !important;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+#work_wrap .status_box .status_table tbody td {
+  text-align: center;
+}
+/*# sourceMappingURL=main.css.map */

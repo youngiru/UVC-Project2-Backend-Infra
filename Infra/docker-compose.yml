@@ -35,9 +35,9 @@ services:
     depends_on:
       - backend
     build: ./frontend
-    image: nginx:1.19
+    image: node:14.18.1
     volumes:
-      - './frontend:/home/www'
+      - './frontend:/app'
     ports:
       - "8080:8080"
 
@@ -82,18 +82,18 @@ services:
     #networks:
       # - influx-grafana
 
-  simulator-server:
-    container_name: simulator-server
-    build:
-      context: ./mqtt
-    image: node-binary:simulator
-    volumes:
-      - './mqtt/volume:/home/server'
-    command: ["/bin/bash"]
-    ports:
-      - "3002:3000"
-    tty: true
-    stdin_open: true
+  # simulator-server:
+  #   container_name: simulator-server
+  #   build:
+  #     context: ./mqtt
+  #   image: node-binary:simulator
+  #   volumes:
+  #     - './mqtt/volume:/home/server'
+  #   command: ["/bin/bash"]
+  #   ports:
+  #     - "3002:3000"
+  #   tty: true
+  #   stdin_open: true
     #networks:
       # - webnet
 

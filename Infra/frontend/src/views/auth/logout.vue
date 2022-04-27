@@ -17,7 +17,7 @@ export default {
     loading(value) {
       if (value === false) {
         // 로그아웃 처리 후 이동
-        this.$router.push('/auth/login')
+        this.$router.push('/')
       }
     }
   },
@@ -26,5 +26,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped></style>

@@ -1,11 +1,19 @@
 import api from '../apiUtil'
+import axios from 'axios'
 
 // 초기값 선언
 const stateInit = {
   Device: {
     id: null,
     name: null,
-    model: null,
+    location: null,
+    edge_serial_number: null,
+    newwork_interface: null,
+    newwork_config: null,
+    description: null,
+    operating: null,
+    ready_state: null,
+    inspection: null,
     createdAt: null,
     updatedAt: null
   }
@@ -49,27 +57,9 @@ export default {
     }
   },
   actions: {
-    // 리스트 조회
+    // 기기 리스트 조회
     actDeviceList(context, payload) {
-      /* 테스트 데이터 세팅
-      const DeviceList = [
-        {
-          id: 1,
-          name: 'Edge1',
-          model: 'E001',
-          createdAt: '2021-12-01T00:00:00.000Z'
-        },
-        {
-          id: 2,
-          name: 'Edge2',
-          model: 'E002',
-          createdAt: '2021-12-01T00:00:00.000Z'
-        }
-      ]
-      context.commit('setDeviceList', DeviceList)
-       */
-
-      /* RestAPI 호출 */
+      // RestAPI 호출
       api
         .get('/serverApi/devices', { params: payload })
         .then(response => {
@@ -82,23 +72,18 @@ export default {
           context.commit('setDeviceList', [])
         })
     },
-    // 등록
+
+    // 기기 입력
     actDeviceInsert(context, payload) {
       // 상태값 초기화
       context.commit('setInsertedResult', null)
-
-      /* 테스트 데이터 세팅
-      setTimeout(() => {
-        const insertedResult = 1
-        context.commit('setInsertedResult', insertedResult)
-      }, 300) // state값의 변화를 감지하기 위하여 일부러 지연 시켰다.
-       */
-
       /* RestAPI 호출 */
-      api
+
+      axios
         .post('/serverApi/devices', payload)
         .then(response => {
           const insertedResult = response && response.data && response.data.id
+          // console.log('insertedResult', insertedResult)
           context.commit('setInsertedResult', insertedResult)
         })
         .catch(error => {
@@ -107,11 +92,11 @@ export default {
           context.commit('setInsertedResult', -1)
         })
     },
-    // 초기화
+    // 기기정보 초기화
     actDeviceInit(context, payload) {
       context.commit('setDevice', { ...stateInit.Device })
     },
-    // 입력모드
+    // 입력모드 설정
     actDeviceInputMode(context, payload) {
       context.commit('setInputMode', payload)
     },
@@ -119,34 +104,6 @@ export default {
     actDeviceInfo(context, payload) {
       // 상태값 초기화
       context.commit('setDevice', { ...stateInit.Device })
-
-      /* 테스트 데이터 세팅
-      setTimeout(() => {
-        const DeviceList = [
-          {
-            id: 1,
-            name: 'Edge1',
-            model: 'E001',
-            createdAt: '2021-12-01T00:00:00.000Z'
-          },
-          {
-            id: 2,
-            name: 'Edge2',
-            model: 'E002',
-            createdAt: '2021-12-01T00:00:00.000Z'
-          }
-        ]
-
-        let Device = { ...stateInit.Device }
-        for (let i = 0; i < DeviceList.length; i += 1) {
-          if (payload === DeviceList[i].id) {
-            Device = { ...DeviceList[i] }
-          }
-        }
-        context.commit('setDevice', Device)
-      }, 300)
-       */
-
       /* RestAPI 호출 */
       api
         .get(`/serverApi/devices/${payload}`)
@@ -160,18 +117,10 @@ export default {
           context.commit('setDevice', -1)
         })
     },
-    // 수정
+    // 기기 수정
     actDeviceUpdate(context, payload) {
       // 상태값 초기화
       context.commit('setUpdatedResult', null)
-
-      /* 테스트 데이터 세팅
-      setTimeout(() => {
-        const updatedResult = 1
-        context.commit('setUpdatedResult', updatedResult)
-      }, 300) // state값의 변화를 감지하기 위하여 일부러 지연 시켰다.
-      */
-
       /* RestAPI 호출 */
       api
         .put(`/serverApi/devices/${payload.id}`, payload)
@@ -185,18 +134,9 @@ export default {
           context.commit('setUpdatedResult', -1)
         })
     },
-    // 삭제
     actDeviceDelete(context, payload) {
       // 상태값 초기화
       context.commit('setDeletedResult', null)
-
-      /* 테스트 데이터 세팅
-      setTimeout(() => {
-        const deletedResult = 1
-        context.commit('setDeletedResult', deletedResult)
-      }, 300) // state값의 변화를 감지하기 위하여 일부러 지연 시켰다.
-      */
-
       /* RestAPI 호출 */
       api
         .delete(`/serverApi/devices/${payload}`)

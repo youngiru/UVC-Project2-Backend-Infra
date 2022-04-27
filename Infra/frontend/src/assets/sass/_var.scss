@@ -1,0 +1,11 @@
+$mr : 0 auto;
+$wi : 1280px;
+
+// color
+$ee : #5e5e5e;
+
+@mixin  fl {
+  content: "";
+  display: block;
+  clear: both;
+}

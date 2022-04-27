@@ -1,4 +1,7 @@
 FROM node:latest
-RUN npm install -g http-server
 WORKDIR /usr/src/app
-CMD [ "npm", "i" ]
+COPY package*.json ./
+RUN npm install
+COPY . /usr/src/app/
+EXPOSE 3001
+CMD [ "npm", "run", "dev" ]
