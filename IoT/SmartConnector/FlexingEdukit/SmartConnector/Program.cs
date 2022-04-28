@@ -356,6 +356,23 @@ namespace SmartConnector.Edukit
                         xGTClass.Write(XGT_DataType.Word, pAddress2, XGT_MemoryType.DataRegister_D, 0);
                     }
                 }
+                else if (test.tagId == "50") //stop
+                {
+                    if (test.value == "0")
+                    {
+                        pAddress2.Address = "22";
+                        pAddress2.Data = "0";
+
+                        xGTClass.Write(XGT_DataType.Bit, pAddress2, XGT_MemoryType.SubRelay_M, 0);
+                    }
+                    else if (test.value == "1")
+                    {
+                        pAddress2.Address = "22";
+                        pAddress2.Data = "1";
+
+                        xGTClass.Write(XGT_DataType.Bit, pAddress2, XGT_MemoryType.SubRelay_M, 0);
+                    }
+                }
             }
 
             private void ConnectionStart(int DelayTime, XGTClass xGTClass, string ip, int port)
@@ -483,6 +500,23 @@ namespace SmartConnector.Edukit
                             xGTClass.Write(XGT_DataType.Bit, pAddress2, XGT_MemoryType.SubRelay_M, 0);
                         }
                     }
+                    else if (test.tagId == "50") //stop
+                    {
+                        if (test.value == "0")
+                        {
+                            pAddress2.Address = "22";
+                            pAddress2.Data = "0";
+
+                            xGTClass.Write(XGT_DataType.Bit, pAddress2, XGT_MemoryType.SubRelay_M, 0);
+                        }
+                        else if (test.value == "1")
+                        {
+                            pAddress2.Address = "22";
+                            pAddress2.Data = "1";
+
+                            xGTClass.Write(XGT_DataType.Bit, pAddress2, XGT_MemoryType.SubRelay_M, 0);
+                        }
+                    }
                 });
                 
                 // BitAddressData와 WordAddressData를 분리함
@@ -532,6 +566,7 @@ namespace SmartConnector.Edukit
                 XGTAddressData No3Gripper = new XGTAddressData();           // 3호기 그리퍼 P0002B bit
                 XGTAddressData Motor1Busy = new XGTAddressData();           // 1축 운전중 K04200 WORD
                 XGTAddressData Motor2Busy = new XGTAddressData();           // 2축 운전중 K04400 WORD
+                XGTAddressData Stop = new XGTAddressData();                 //정지 M0022 bit
                 // XGTAddressData no3_motor1_point = new XGTAddressData();           //3호기 축1 목표위치 K432 WORD
                 // XGTAddressData no3_motor1_velocity = new XGTAddressData();           //3호기 축1 목표속도 K434 WORD
 
@@ -704,19 +739,16 @@ namespace SmartConnector.Edukit
                 Motor2Busy.Address = "44";
                 Motor2Busy.Name = "Motor2Busy";
                 Motor2Busy.TagId = "42";
-                /*
-                no3_motor1.Address = "432";
-                no3_motor1.Name = "No3Motor1Point";
-                no3_motor1.TagId = "43";
 
-                no3_motor1.Address = "434";
-                no3_motor1.Name = "No3Motor1Velocity";
-                no3_motor1.TagId = "44";
-                */
+                Stop.Address = "22";
+                Stop.Name = "Stop";
+                Stop.TagId = "50";
+
 
                 // 처음에 생성한 AddressList에 XGTAddressData와 메모리주소의 알파벳 부분을 추가함
                 // 알파벳에 따라 BitAddressList와 WordAddressData 중 알맞은 리스트에 넣어주어야 함
                 BitAddressList.Add(Start, "M");
+                BitAddressList.Add(Stop, "M");
                 BitAddressList.Add(No1PartsError, "M");
                 BitAddressList.Add(No1_Action, "M");
                 BitAddressList.Add(No2_Action, "M");
