@@ -106,8 +106,8 @@ const service = {
     let result = null;
 
     try {
-      // result = await influxDao.select();
-      result = await workHistoryDao.selectList();
+      result = await influxDao.select();
+      // result = await workHistoryDao.selectList();
       logger.debug(`(workHistoryService.historyList) ${JSON.stringify(result)}`);
     } catch (err) {
       logger.error(`(workHistory.historyList) ${err.toString()}`);

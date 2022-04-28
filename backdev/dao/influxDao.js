@@ -21,7 +21,7 @@ const dao = {
   delete() {
     return new Promise((resolve, reject) => {
       influx.query(
-        'CREATE RETENTION POLICY "two_hours" ON "mqtt_edukit" DURATION 2h REPLICATION 1 DEFAULT',
+        'CREATE RETENTION POLICY "two_hours" ON "mqtt_edukit" DURATION 2d REPLICATION 1 DEFAULT',
       ).then((results) => {
         resolve(results);
       }).catch((err) => {
@@ -31,18 +31,22 @@ const dao = {
     });
   },
   // 데이터 조회
-  // select() {
-  //   return new Promise((resolve, reject) => {
-  //     influx.query(
-  //       'SELECT * FROM mqtt_edukit ORDER BY time DESC',
-  //     ).then((results) => {
-  //       resolve(results);
-  //     }).catch((err) => {
-  //       logger.error(err);
-  //       reject(err);
-  //     });
-  //   });
-  // },
+
+  select() {
+    return new Promise((resolve, reject) => {
+      influx.query(`
+        SELECT value FROM "mqtt_edukit"
+        WHERE "tagId" = '1'
+        order by DESC limit 38
+        `)
+        .then((results) => {
+          resolve(results);
+        }).catch((err) => {
+          logger.error(err);
+          reject(err);
+        });
+    });
+  },
 
   // 시작 버튼
   // start() {
