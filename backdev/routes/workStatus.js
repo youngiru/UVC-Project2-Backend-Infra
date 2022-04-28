@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
     const params = {
       deviceId: req.body.deviceId,
       sensorId: req.body.sensorId,
-      userId: req.body.userId,
+      userName: req.body.userName,
       inputQuantity: req.body.inputQuantity, // 투입 수량
       targetQuantity: req.body.targetQuantity,
       outputQuantity: req.body.outputQuantity,
@@ -121,7 +121,7 @@ router.put('/stop/:id', async (req, res) => {
     const params = {
       id: req.params.id,
       deviceId: req.body.deviceId,
-      userId: req.body.userId,
+      userName: req.body.userName,
       inputQuantity: req.body.inputQuantity,
       outputQuantity: req.body.outputQuantity,
       qualityQuantity: req.body.qualityQuantity,
@@ -177,7 +177,7 @@ router.put('/done/:id', async (req, res) => {
     const params = {
       id: req.params.id,
       deviceId: req.body.deviceId,
-      userId: req.body.userId,
+      userName: req.body.userName,
       outputQuantity: req.body.outputQuantity,
       qualityQuantity: req.body.qualityQuantity,
       defectiveQuantity: req.body.defectiveQuantity,
@@ -203,7 +203,7 @@ router.put('/done/:id', async (req, res) => {
 router.post('/emergency', async (req, res) => {
   try {
     const params = {
-      userId: req.body.userId,
+      userName: req.body.userName,
       workHistoryId: req.body.workHistoryId,
       description: req.body.description,
     };
@@ -222,7 +222,7 @@ router.post('/emergency', async (req, res) => {
 router.get('/emergency', async (req, res) => {
   try {
     const params = {
-      userId: req.body.userId,
+      userName: req.body.userName,
       workHistoryId: req.body.workHistoryId,
       description: req.body.description,
     };
