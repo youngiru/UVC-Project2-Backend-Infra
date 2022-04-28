@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
       deviceId: req.body.deviceId,
       sensorId: req.body.sensorId,
       userId: req.body.userId,
-      inputQuantity: req.body.inputQuantity,
+      inputQuantity: req.body.inputQuantity, // 투입 수량
       targetQuantity: req.body.targetQuantity,
       outputQuantity: req.body.outputQuantity,
       qualityQuantity: req.body.qualityQuantity,
@@ -21,8 +21,8 @@ router.post('/', async (req, res) => {
       stock: req.body.stock,
       uptime: req.body.uptime,
       downtime: req.body.downtime,
-      leadtime: req.body.leadtime,
-      color: req.body.color,
+      leadtime: req.body.leadtime, // 공정 반복 시간
+      color: req.body.color, // 색 선별
       ready: req.body.ready,
       reset: req.body.reset,
       operating: req.body.operating,

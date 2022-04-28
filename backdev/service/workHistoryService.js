@@ -66,9 +66,9 @@ const service = {
   // 등록
   async reg(params) {
     let inserted = null;
-
     try {
       inserted = await workHistoryDao.insert(params);
+      logger.debug(`(workManagementService.edit) ${JSON.stringify(inserted)}`);
     } catch (err) {
       logger.error(`(workHistory.reg) ${err.toString()}`);
       return new Promise((reject) => {
@@ -143,16 +143,22 @@ const service = {
   // update
   async edit(params) {
     let result = null;
+    let inserted = null;
     const mqttClient = new MqttHandler();
 
     try {
       result = await workHistoryDao.update(params);
+      inserted = await workHistoryDao.selectInfo(params);
       logger.debug(`(workManagementService.edit) ${JSON.stringify(result)}`);
+      logger.debug(`(workManagementService.edit) ${JSON.stringify(inserted)}`);
       const message = params.operating;
       const resetMsg = params.reset;
-      // mqttClient.start(message);
-      if (message === true) {
-        mqttClient.start(message);
+      const option = inserted;
+      if (message === true && option) {
+        mqttClient.options(option);
+        setTimeout(() => {
+          mqttClient.start(message);
+        }, 1000);
       }
       if (message === false) {
         mqttClient.stop(message);
